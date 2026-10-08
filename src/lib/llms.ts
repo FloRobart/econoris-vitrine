@@ -24,6 +24,8 @@ export async function buildLlms(site: URL | undefined, full: boolean) {
     `- Application : ${SITE.appUrl}`,
     `- Site officiel : ${url('/')}`,
     `- Plateformes : navigateur web, Android, iPhone/iPad, Windows, macOS, Linux ; extension Chrome et Firefox`,
+    ...(SITE.mobile.playStore ? [`- Google Play : ${SITE.mobile.playStore}`] : []),
+    ...(SITE.mobile.appStore ? [`- App Store : ${SITE.mobile.appStore}`] : []),
     `- Langue : français ; devise : euro`,
     `- Connexion : sans mot de passe, par code à usage unique envoyé par email`,
     `- Banque : aucune connexion bancaire, aucun identifiant bancaire demandé ; saisie manuelle des opérations`,

@@ -74,6 +74,27 @@ const howTo = {
         <span class="icon-chip"><Icon name="smartphone" /></span>
         <h2>2. Installer sur téléphone</h2>
       </header>
+      {
+        SITE.mobile.playStore || SITE.mobile.appStore ? (
+          <div class="store-links">
+            {SITE.mobile.playStore && (
+              <a class="btn btn-primary" href={SITE.mobile.playStore}>
+                <Icon name="download" size={18} /> Google Play
+              </a>
+            )}
+            {SITE.mobile.appStore && (
+              <a class="btn btn-primary" href={SITE.mobile.appStore}>
+                <Icon name="download" size={18} /> App Store
+              </a>
+            )}
+          </div>
+        ) : (
+          <p class="tip">
+            L'application arrive bientôt sur Google Play (et sur l'App Store). En attendant, ajoutez-la à votre écran
+            d'accueil depuis le navigateur :
+          </p>
+        )
+      }
       <div class="grid grid-2">
         <div class="card">
           <h3>Android (Chrome)</h3>

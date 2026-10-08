@@ -37,6 +37,12 @@ export const SITE = {
     releases: 'https://github.com/FloRobart/econoris-extension/releases',
   },
 
+  /** Laisser à null tant que l'application n'est pas publiée sur le store. */
+  mobile: {
+    playStore: null as string | null,
+    appStore: null as string | null,
+  },
+
   dockerImage: 'florobart/econoris-app-web',
   license: 'GPL-3.0',
   licenseUrl: 'https://www.gnu.org/licenses/gpl-3.0.html',

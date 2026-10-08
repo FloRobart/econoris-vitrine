@@ -56,6 +56,9 @@ export function softwareApplication(site: URL | undefined) {
     browserRequirements: 'Navigateur web récent (Chrome, Firefox, Safari, Edge)',
     inLanguage: 'fr-FR',
     isAccessibleForFree: true,
+    ...(SITE.mobile.playStore || SITE.mobile.appStore
+      ? { downloadUrl: [SITE.mobile.playStore, SITE.mobile.appStore].filter(Boolean) }
+      : {}),
     license: SITE.licenseUrl,
     image: abs('/og-image.png', site),
     screenshot: abs('/og-image.png', site),
