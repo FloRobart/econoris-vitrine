@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../config/site';
+import { abs, breadcrumbs } from '../lib/schema';
+
+const crumbs = [{ name: 'À propos', path: '/a-propos/' }];
+const aboutPage = {
+  '@type': 'AboutPage',
+  name: "À propos d'Econoris",
+  url: abs('/a-propos/', Astro.site),
+  about: { '@id': abs('/#app', Astro.site) },
+  inLanguage: 'fr-FR',
+};
+---
+
+<BaseLayout
+  title="À propos : un projet libre, simple et gratuit"
+  description="Econoris est un projet open source créé par Floris Robart pour aider chacun à anticiper son budget. Découvrez sa philosophie : simplicité, gratuité et respect de la vie privée."
+  schema={[aboutPage, breadcrumbs(Astro.site, crumbs)]}
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <p class="eyebrow">À propos</p>
+    <h1>Un outil de budget qui regarde devant</h1>
+    <p class="lead">
+      Econoris est né d'une idée simple : la question utile n'est pas « où est passé mon argent ? », mais « combien
+      puis-je encore dépenser ? ».
+    </p>
+  </section>
+
+  <section class="container prose">
+    <h2>Pourquoi Econoris ?</h2>
+    <p>
+      Le solde affiché par votre banque ment un peu : il ne sait pas que le loyer part dans trois jours, que
+      l'assurance tombe la semaine prochaine ou que vous avez promis un cadeau pour samedi. On se croit large, puis le
+      mois se termine dans le rouge.
+    </p>
+    <p>
+      Econoris corrige ce décalage. En déduisant à l'avance tout ce qui est prévu, il affiche un chiffre honnête : ce
+      que vous pouvez dépenser sans mauvaise surprise. C'est la seule promesse de l'application, et tout le reste est
+      construit autour.
+    </p>
+
+    <h2>Nos principes</h2>
+    <ul class="check-list">
+      <li><Icon name="check" size={18} /> <span><strong>Simplicité.</strong> Une opération se saisit en quelques secondes. Pas de tableau à construire, pas de jargon financier.</span></li>
+      <li><Icon name="check" size={18} /> <span><strong>Gratuité.</strong> Toutes les fonctionnalités sont gratuites pour tout le monde. Pas de premium, pas de publicité.</span></li>
+      <li><Icon name="check" size={18} /> <span><strong>Respect.</strong> Aucun accès à votre banque, connexion sans mot de passe, code source public.</span></li>
+      <li><Icon name="check" size={18} /> <span><strong>Anticipation.</strong> Chaque écran vous aide à décider avant de dépenser, pas à constater après.</span></li>
+    </ul>
+
+    <h2>Un projet open source</h2>
+    <p>
+      Econoris est développé par <a href={SITE.author.url} rel="author noopener">{SITE.author.name}</a> et publié sous
+      licence <a href={SITE.licenseUrl} rel="noopener">GNU GPL v3</a>. L'application (Flutter), le serveur (Node.js et
+      PostgreSQL) et l'extension navigateur sont disponibles sur GitHub :
+    </p>
+    <ul>
+      <li><a href={SITE.github.app} rel="noopener">econoris_app</a> — l'application web et mobile</li>
+      <li><a href={SITE.github.server} rel="noopener">Econoris_server</a> — l'API</li>
+      <li><a href={SITE.github.extension} rel="noopener">econoris-extension</a> — l'extension Chrome et Firefox</li>
+    </ul>
+
+    <h2>Contact, bugs et suggestions</h2>
+    <p>
+      Une faute de frappe, une erreur de calcul, un bug ou une idée de fonctionnalité ? Toutes les remarques sont
+      lues et prises en compte. Écrivez à <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a> ou ouvrez
+      une issue sur GitHub.
+    </p>
+  </section>
+
+  <CtaBanner />
+</BaseLayout>

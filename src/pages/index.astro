@@ -1,0 +1,372 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppMockup from '../components/AppMockup.astro';
+import BudgetCalculator from '../components/BudgetCalculator.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../config/site';
+import { FAQS } from '../data/faq';
+import { faqPage, softwareApplication } from '../lib/schema';
+
+const homeFaqs = FAQS.filter((f) => f.home);
+
+const features = [
+  {
+    icon: 'wallet',
+    title: 'Reste à dépenser en temps réel',
+    text: 'Revenus moins toutes les dépenses du mois, y compris celles à venir. Vous savez avant chaque achat si vous pouvez vous le permettre.',
+  },
+  {
+    icon: 'calendar',
+    title: 'Un mois calé sur votre paie',
+    text: 'Econoris détecte votre salaire et calcule votre budget de paie à paie, pas du 1er au 31. Votre mois financier, enfin.',
+  },
+  {
+    icon: 'clock',
+    title: 'Dépenses à venir',
+    text: 'Notez le loyer, la facture d’électricité ou le cadeau d’anniversaire à l’avance : ils sont déjà déduits de votre budget.',
+  },
+  {
+    icon: 'repeat',
+    title: 'Abonnements maîtrisés',
+    text: 'Streaming, forfait, salle de sport… Saisis une fois, vos abonnements mensuels ou annuels sont comptés automatiquement.',
+  },
+  {
+    icon: 'gauge',
+    title: "Indice de gestion d'argent",
+    text: 'Un chiffre unique pour savoir si votre mois se passe bien : de « Mauvais » à « Excellent », sans tableau compliqué.',
+  },
+  {
+    icon: 'puzzle',
+    title: 'Extension navigateur',
+    text: 'Ajoutez une dépense en quelques secondes depuis Chrome ou Firefox, juste après un achat en ligne.',
+  },
+] as const;
+---
+
+<BaseLayout schema={[softwareApplication(Astro.site), faqPage(homeFaqs)]}>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Application de budget 100 % gratuite</p>
+        <h1>Sachez ce que vous pouvez dépenser, <mark>avant</mark> de le dépenser.</h1>
+        <p class="lead">
+          <strong>Econoris</strong> est une application de gestion de budget simple et gratuite. Notez vos revenus,
+          vos dépenses prévues et vos abonnements : Econoris calcule en temps réel combien il vous reste à dépenser
+          ce mois-ci.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={SITE.appUrl}>Commencer gratuitement <Icon name="arrow-right" size={18} /></a>
+          <a class="btn btn-ghost" href="#comment-ca-marche">Comment ça marche ?</a>
+        </div>
+        <ul class="pill-list">
+          <li><Icon name="check" size={18} /> Gratuit, sans pub</li>
+          <li><Icon name="check" size={18} /> Sans connexion bancaire</li>
+          <li><Icon name="check" size={18} /> Sans mot de passe</li>
+          <li><Icon name="check" size={18} /> Open source</li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <AppMockup />
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMESSE -->
+  <section class="section section-alt">
+    <div class="container promise">
+      <div class="section-head">
+        <p class="eyebrow">La différence Econoris</p>
+        <h2>Les autres vous disent où est passé votre argent. Econoris vous dit combien il vous en reste.</h2>
+        <p>
+          La plupart des outils de budget regardent en arrière : ils classent vos dépenses une fois qu'elles sont
+          faites. Econoris regarde devant : vos dépenses à venir sont déjà déduites, pour que le chiffre affiché
+          soit celui que vous pouvez vraiment dépenser.
+        </p>
+      </div>
+      <div class="grid grid-2 compare">
+        <div class="card muted-card">
+          <h3>Sans Econoris</h3>
+          <ul>
+            <li>« J'ai 900 € sur mon compte, je peux me faire plaisir. »</li>
+            <li>Le loyer, l'assurance et trois abonnements tombent la semaine suivante.</li>
+            <li>Fin de mois dans le rouge, sans comprendre pourquoi.</li>
+          </ul>
+        </div>
+        <div class="card good-card">
+          <h3>Avec Econoris</h3>
+          <ul>
+            <li>« Il me reste <strong>212 €</strong> à dépenser jusqu'à ma prochaine paie. »</li>
+            <li>Loyer, assurance et abonnements sont déjà comptés.</li>
+            <li>Vous décidez en connaissance de cause, avant d'acheter.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="section" id="comment-ca-marche">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Simple comme 1, 2, 3</p>
+        <h2>Comment ça marche ?</h2>
+        <p>Pas de tableur, pas de jargon, pas de synchronisation bancaire. Trois étapes, et c'est tout.</p>
+      </div>
+      <ol class="steps grid grid-3">
+        <li class="card">
+          <span class="num">1</span>
+          <h3>Ajoutez vos revenus</h3>
+          <p>Votre salaire, vos aides, vos primes. Econoris repère votre paie pour démarrer votre mois au bon jour.</p>
+        </li>
+        <li class="card">
+          <span class="num">2</span>
+          <h3>Notez vos dépenses prévues</h3>
+          <p>Loyer, factures, abonnements, et les dépenses du quotidien au fil de l'eau. Une catégorie, un montant, une date.</p>
+        </li>
+        <li class="card">
+          <span class="num">3</span>
+          <h3>Regardez avant d'acheter</h3>
+          <p>Votre « reste possible à dépenser » se met à jour instantanément. Vous savez si cet achat passe, ou pas.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CALCULATEUR -->
+  <section class="section section-alt">
+    <div class="container calc-grid">
+      <div>
+        <p class="eyebrow">Essayez maintenant</p>
+        <h2>Votre reste à dépenser, calculé en direct</h2>
+        <p class="lead">
+          C'est exactement le calcul qu'Econoris fait pour vous, chaque jour, en tenant compte de toutes vos
+          opérations et de vos abonnements.
+        </p>
+        <p>
+          Envie de comprendre la méthode ? Lisez notre guide sur <a href="/guides/calculer-reste-a-vivre/">comment calculer son reste à vivre</a>.
+        </p>
+      </div>
+      <BudgetCalculator />
+    </div>
+  </section>
+
+  <!-- FONCTIONNALITÉS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Fonctionnalités</p>
+        <h2>L'essentiel pour gérer votre budget. Rien de plus.</h2>
+        <p>Econoris fait peu de choses, mais il les fait bien. Chaque fonctionnalité sert un seul but : anticiper.</p>
+      </div>
+      <div class="grid grid-3">
+        {
+          features.map((f) => (
+            <article class="card">
+              <span class="icon-chip">
+                <Icon name={f.icon} />
+              </span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <p class="center-link"><a href="/fonctionnalites/">Voir toutes les fonctionnalités <Icon name="arrow-right" size={16} /></a></p>
+    </div>
+  </section>
+
+  <!-- GRATUIT -->
+  <section class="section section-alt">
+    <div class="container free-grid">
+      <div>
+        <p class="eyebrow">Gratuit. Vraiment.</p>
+        <h2>Pas d'abonnement. Pas de pub. Pas de piège.</h2>
+        <p class="lead">
+          Une application pour vous aider à dépenser moins ne devrait pas vous coûter de l'argent. Econoris est un
+          projet open source : toutes les fonctionnalités sont gratuites, pour tout le monde, sans limite.
+        </p>
+        <a class="btn btn-primary" href={SITE.appUrl}>Créer mon compte gratuit</a>
+      </div>
+      <ul class="grid free-list">
+        <li class="card"><span class="icon-chip"><Icon name="gift" /></span><div><h3>0 €, pour toujours</h3><p>Aucune version premium, aucune fonctionnalité bloquée.</p></div></li>
+        <li class="card"><span class="icon-chip"><Icon name="ban" /></span><div><h3>Zéro publicité</h3><p>Votre écran de budget n'est pas un panneau publicitaire.</p></div></li>
+        <li class="card"><span class="icon-chip"><Icon name="lock" /></span><div><h3>Votre banque reste fermée</h3><p>Aucun identifiant bancaire demandé, jamais.</p></div></li>
+        <li class="card"><span class="icon-chip"><Icon name="code" /></span><div><h3>Code ouvert</h3><p>Publié sous licence GPL-3.0, vérifiable par tous.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- INSTALLATION -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Partout avec vous</p>
+        <h2>Sur votre téléphone, votre ordinateur, votre navigateur</h2>
+        <p>Econoris s'ouvre dans n'importe quel navigateur et s'installe en un geste, sans passer par un store.</p>
+      </div>
+      <div class="grid grid-3">
+        <a class="card install-card" href="/installer/#telephone">
+          <span class="icon-chip"><Icon name="smartphone" /></span>
+          <h3>Android et iPhone</h3>
+          <p>Ajoutez Econoris à votre écran d'accueil : il s'ouvre comme une vraie application.</p>
+        </a>
+        <a class="card install-card" href="/installer/#ordinateur">
+          <span class="icon-chip"><Icon name="monitor" /></span>
+          <h3>Ordinateur</h3>
+          <p>Windows, macOS ou Linux : utilisez-le dans le navigateur ou installez-le en un clic.</p>
+        </a>
+        <a class="card install-card" href="/installer/#extension">
+          <span class="icon-chip"><Icon name="puzzle" /></span>
+          <h3>Extension Chrome et Firefox</h3>
+          <p>Ajoutez une dépense en quelques secondes, sans quitter la page où vous êtes.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Questions fréquentes</p>
+        <h2>Vous vous demandez sûrement…</h2>
+      </div>
+      <FaqList items={homeFaqs} />
+      <p class="center-link"><a href="/faq/">Toutes les questions <Icon name="arrow-right" size={16} /></a></p>
+    </div>
+  </section>
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(40px, 7vw, 88px) clamp(56px, 8vw, 96px);
+    background: radial-gradient(70% 60% at 85% 20%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 70%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(32px, 6vw, 72px);
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 1.75rem 0 1.5rem;
+  }
+
+  .promise .section-head {
+    max-width: 780px;
+  }
+  .compare ul {
+    margin: 0;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--ink-soft);
+  }
+  .muted-card h3 {
+    color: var(--muted);
+  }
+  .good-card {
+    border-color: color-mix(in srgb, var(--success) 35%, var(--line));
+  }
+  .good-card h3 {
+    color: var(--success);
+  }
+
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .num {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: var(--brand-ink);
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(32px, 6vw, 64px);
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .center-link {
+    text-align: center;
+    margin: 2rem 0 0;
+    font-weight: 700;
+  }
+  .center-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .free-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 64px);
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .free-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .free-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 520px) {
+    .free-list {
+      grid-template-columns: 1fr;
+    }
+  }
+  .free-list .card {
+    padding: 20px;
+  }
+  .free-list h3 {
+    font-size: 1.05rem;
+  }
+  .free-list p {
+    font-size: 0.95rem;
+  }
+
+  .install-card {
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .install-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+</style>

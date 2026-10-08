@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import { breadcrumbs, softwareApplication } from '../lib/schema';
+
+const crumbs = [{ name: 'Fonctionnalités', path: '/fonctionnalites/' }];
+
+const sections = [
+  {
+    id: 'reste-a-depenser',
+    icon: 'wallet',
+    title: 'Le reste possible à dépenser',
+    text: [
+      "C'est le cœur d'Econoris. Sur l'écran d'accueil, un seul chiffre vous dit combien vous pouvez encore dépenser jusqu'à la fin de votre mois financier.",
+      "Le calcul est simple et transparent : tous vos revenus du mois, moins toutes vos dépenses du mois, y compris celles qui n'ont pas encore eu lieu. Le loyer du 5, l'abonnement du 12 et la facture du 20 sont déjà retirés. Le montant affiché est donc réellement disponible.",
+      "La couleur change selon la part de votre budget qu'il vous reste : vert quand tout va bien, orange quand il faut ralentir, rouge en cas de dépassement.",
+    ],
+  },
+  {
+    id: 'mois-financier',
+    icon: 'calendar',
+    title: 'Un mois financier calé sur votre salaire',
+    text: [
+      "Votre budget ne commence pas le 1er du mois : il commence quand votre salaire arrive. Econoris repère automatiquement votre paie (catégorie « Salaire ») et calcule toutes vos statistiques de paie à paie.",
+      "Payé le 28 ? Votre mois va du 28 au 27. Votre paie arrive un jour plus tôt à cause d'un week-end ? Econoris s'adapte. Si aucun salaire n'est détecté, le mois calendaire classique est utilisé.",
+    ],
+  },
+  {
+    id: 'operations-a-venir',
+    icon: 'clock',
+    title: 'Opérations passées et à venir',
+    text: [
+      "Ajoutez une opération en quelques secondes : un montant, un libellé, une catégorie, une date. Si la date est dans le futur, l'opération apparaît dans « Opérations à venir » et elle est déjà déduite de votre reste à dépenser.",
+      "Vous pouvez ainsi planifier un achat, un voyage ou un cadeau et voir immédiatement son impact sur votre mois. L'historique des opérations récentes reste accessible juste en dessous, et vous pouvez naviguer de mois en mois.",
+    ],
+  },
+  {
+    id: 'abonnements',
+    icon: 'repeat',
+    title: 'Le suivi des abonnements',
+    text: [
+      'Streaming, forfait mobile, box internet, salle de sport, assurance… Enregistrez chaque abonnement une seule fois avec sa récurrence : mensuelle, trimestrielle, semestrielle ou annuelle.',
+      "Econoris les intègre automatiquement à vos dépenses à venir et affiche leur coût mensuel total. Pratique pour repérer l'abonnement oublié qui vous coûte plus de 100 € par an.",
+    ],
+  },
+  {
+    id: 'indice',
+    icon: 'gauge',
+    title: "L'indice de gestion d'argent",
+    text: [
+      "Un seul chiffre pour juger votre mois. L'indice compare ce que vous gagnez à ce que vous dépensez, hors épargne et investissements.",
+      "À 0, vous dépensez exactement ce que vous gagnez. À 100, vous gagnez deux fois plus que vous ne dépensez. En dessous de 0, vous dépensez plus que vous ne gagnez. Une appréciation (Mauvais, Moyen, Bon, Très bon, Excellent) accompagne le chiffre pour le lire d'un coup d'œil.",
+    ],
+  },
+  {
+    id: 'categories',
+    icon: 'tag',
+    title: 'Plus de 50 catégories prêtes à l’emploi',
+    text: [
+      "Courses, restaurants, loyer, énergie, transports, santé, loisirs, impôts, épargne, cryptomonnaies… Les catégories couvrent la vie courante sans rien avoir à configurer.",
+      "L'épargne et les investissements (épargne, bourse, dividendes, cryptomonnaies) sont traités à part : mettre de l'argent de côté ne dégrade pas votre indice de gestion.",
+    ],
+  },
+  {
+    id: 'extension',
+    icon: 'puzzle',
+    title: 'Une extension navigateur pour aller plus vite',
+    text: [
+      "L'extension Econoris pour Chrome et Firefox ajoute une dépense ou un revenu en quelques secondes, directement depuis la barre du navigateur. Idéal juste après un achat en ligne.",
+      "Si vous êtes déjà connecté à l'application web, l'extension reprend votre session automatiquement.",
+    ],
+  },
+  {
+    id: 'confort',
+    icon: 'moon',
+    title: 'Simple, clair, agréable',
+    text: [
+      "Connexion sans mot de passe par code email, thème clair ou sombre, interface en français, montants en euros. Econoris s'ouvre sur téléphone, tablette et ordinateur, et s'installe sur l'écran d'accueil comme une application.",
+    ],
+  },
+] as const;
+---
+
+<BaseLayout
+  title="Fonctionnalités : reste à dépenser, abonnements, mois financier"
+  description="Découvrez les fonctionnalités d'Econoris : reste à dépenser en temps réel, mois calé sur votre paie, dépenses à venir, suivi des abonnements et indice de gestion. 100 % gratuit."
+  schema={[softwareApplication(Astro.site), breadcrumbs(Astro.site, crumbs)]}
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <p class="eyebrow">Fonctionnalités</p>
+    <h1>Tout ce qu'il faut pour anticiper votre budget</h1>
+    <p class="lead">
+      Econoris ne cherche pas à tout faire. Il se concentre sur une seule question, celle qui compte vraiment : <strong>combien puis-je encore dépenser ce mois-ci ?</strong>
+    </p>
+    <nav class="toc" aria-label="Sommaire des fonctionnalités">
+      {sections.map((s) => <a href={`#${s.id}`}>{s.title}</a>)}
+    </nav>
+  </section>
+
+  <div class="container features">
+    {
+      sections.map((s) => (
+        <section id={s.id} class="feature">
+          <span class="icon-chip">
+            <Icon name={s.icon} />
+          </span>
+          <div>
+            <h2>{s.title}</h2>
+            {s.text.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Comparatif</p>
+        <h2>Econoris face aux autres façons de gérer son budget</h2>
+        <p>Chaque méthode a ses forces. Voici où se situe Econoris.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Econoris</th>
+              <th scope="col">Tableur (Excel, Sheets)</th>
+              <th scope="col">Application de la banque</th>
+              <th scope="col">Agrégateur bancaire</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Prix</th><td><strong>Gratuit</strong></td><td>Gratuit ou payant</td><td>Inclus</td><td>Souvent payant pour l'essentiel</td></tr>
+            <tr><th scope="row">Reste à dépenser incluant les dépenses futures</th><td><strong>Oui, automatique</strong></td><td>À construire soi-même</td><td>Rarement</td><td>Parfois</td></tr>
+            <tr><th scope="row">Mois calé sur la paie</th><td><strong>Oui, automatique</strong></td><td>À construire soi-même</td><td>Non</td><td>Parfois</td></tr>
+            <tr><th scope="row">Accès à vos comptes bancaires</th><td><strong>Jamais</strong></td><td>Non</td><td>Oui</td><td>Oui</td></tr>
+            <tr><th scope="row">Publicité</th><td><strong>Aucune</strong></td><td>Aucune</td><td>Offres de la banque</td><td>Variable</td></tr>
+            <tr><th scope="row">Prise en main</th><td><strong>Immédiate</strong></td><td>Longue</td><td>Immédiate</td><td>Moyenne</td></tr>
+            <tr><th scope="row">Code source ouvert</th><td><strong>Oui (GPL-3.0)</strong></td><td>Non</td><td>Non</td><td>Non</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container grid grid-2">
+      <div>
+        <p class="eyebrow">En toute honnêteté</p>
+        <h2>Ce qu'Econoris ne fait pas</h2>
+        <p>Pour que vous sachiez exactement à quoi vous attendre.</p>
+      </div>
+      <ul class="check-list not">
+        <li><Icon name="ban" size={18} /> Pas de synchronisation automatique avec votre banque : vous saisissez vos opérations (c'est aussi ce qui vous rend attentif à chaque dépense).</li>
+        <li><Icon name="ban" size={18} /> Pas de comptabilité professionnelle ni de gestion d'entreprise.</li>
+        <li><Icon name="ban" size={18} /> Pas de conseils d'investissement ni de produits financiers à vendre.</li>
+        <li><Icon name="ban" size={18} /> Pas de publicité, pas d'offre premium, pas de revente d'abonnement.</li>
+      </ul>
+    </div>
+  </section>
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.75rem;
+  }
+  .toc a {
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .toc a:hover {
+    color: var(--ink);
+    border-color: var(--brand);
+  }
+  .features {
+    display: grid;
+    gap: 16px;
+    padding-bottom: clamp(24px, 4vw, 40px);
+  }
+  .feature {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    padding: clamp(22px, 4vw, 36px);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    scroll-margin-top: 90px;
+  }
+  @media (max-width: 560px) {
+    .feature {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+  .feature h2 {
+    font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+  }
+  .feature p {
+    color: var(--ink-soft);
+    max-width: 760px;
+  }
+  .feature p:last-child {
+    margin-bottom: 0;
+  }
+  .not svg {
+    color: var(--danger);
+  }
+  td strong {
+    color: var(--success);
+  }
+</style>

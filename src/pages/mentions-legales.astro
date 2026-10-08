@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../config/site';
+
+const crumbs = [{ name: 'Mentions légales', path: '/mentions-legales/' }];
+const siteHost = Astro.site?.host ?? '';
+---
+
+<BaseLayout
+  title="Mentions légales"
+  description="Mentions légales du site Econoris : éditeur, hébergeur, propriété intellectuelle et contact."
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <h1>Mentions légales</h1>
+  </section>
+
+  <section class="container prose legal">
+    <h2>Éditeur du site</h2>
+    <p>
+      Le site {siteHost} est édité à titre personnel et non commercial par {SITE.author.name}.<br />
+      Contact : <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a><br />
+      Directeur de la publication : {SITE.author.name}
+    </p>
+
+    <h2>Hébergement</h2>
+    <p>
+      {SITE.host.name}<br />
+      {SITE.host.address}<br />
+      {SITE.host.contact}
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      Le nom Econoris, son logo et les contenus rédactionnels de ce site appartiennent à {SITE.author.name}. Le code
+      source de l'application Econoris est distribué sous licence <a href={SITE.licenseUrl} rel="noopener">GNU GPL v3</a> ; il peut être réutilisé dans les conditions de cette
+      licence.
+    </p>
+
+    <h2>Responsabilité</h2>
+    <p>
+      Les guides publiés sur ce site sont fournis à titre informatif et ne constituent pas un conseil financier,
+      juridique ou fiscal personnalisé. Econoris est un outil d'aide à la gestion d'un budget personnel ; il ne
+      remplace ni votre banque, ni un professionnel du conseil.
+    </p>
+
+    <h2>Données personnelles</h2>
+    <p>Voir la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-bottom: 80px;
+  }
+</style>

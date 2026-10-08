@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+interface Props {
+  size?: number;
+}
+
+const { size = 36 } = Astro.props;
+---
+
+<Image src={logo} alt="" width={size} height={size} densities={[1, 2]} loading="eager" decoding="async" />

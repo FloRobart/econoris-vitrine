@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content';
+import Logo from './Logo.astro';
+import { SITE } from '../config/site';
+
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div class="about">
+        <a href="/" class="brand"><Logo size={30} /><span>Econoris</span></a>
+        <p>
+          L'application de gestion de budget gratuite et simple qui vous dit ce que vous pouvez dépenser, avant
+          de le dépenser.
+        </p>
+      </div>
+
+      <nav aria-label="Produit">
+        <h2>Produit</h2>
+        <ul>
+          <li><a href="/fonctionnalites/">Fonctionnalités</a></li>
+          <li><a href="/installer/">Installer Econoris</a></li>
+          <li><a href="/faq/">Questions fréquentes</a></li>
+          <li><a href={SITE.appUrl}>Ouvrir l'application</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Guides">
+        <h2>Guides budget</h2>
+        <ul>
+          {
+            guides.map((g) => (
+              <li>
+                <a href={`/guides/${g.id}/`}>{g.data.shortTitle}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Projet">
+        <h2>Projet</h2>
+        <ul>
+          <li><a href="/a-propos/">À propos</a></li>
+          <li><a href={SITE.github.app} rel="noopener">Code source</a></li>
+          <li><a href={`mailto:${SITE.author.email}`}>Contact</a></li>
+          <li><a href="/mentions-legales/">Mentions légales</a></li>
+          <li><a href="/confidentialite/">Confidentialité</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="legal">
+      © {year} Econoris · Projet open source sous licence <a href={SITE.licenseUrl} rel="noopener">GPL-3.0</a> · Développé par <a href={SITE.author.url} rel="author noopener">{SITE.author.name}</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background: var(--bg-alt);
+    padding-block: 56px 32px;
+    font-size: 0.95rem;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 820px) {
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 460px) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--ink);
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+  }
+  .about p {
+    color: var(--ink-soft);
+    max-width: 320px;
+  }
+  h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  ul a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  ul a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+  .legal {
+    margin: 40px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .legal a {
+    color: inherit;
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../config/site';
+
+const crumbs = [{ name: 'Confidentialité', path: '/confidentialite/' }];
+---
+
+<BaseLayout
+  title="Politique de confidentialité"
+  description="Comment Econoris traite vos données : aucun cookie publicitaire sur ce site, aucun accès bancaire, connexion par email. Vos droits RGPD."
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <h1>Politique de confidentialité</h1>
+    <p class="lead">En bref : ce site ne vous suit pas, et l'application ne collecte que ce qui est nécessaire pour fonctionner.</p>
+  </section>
+
+  <section class="container prose legal">
+    <h2>Ce site vitrine</h2>
+    <p>
+      Ce site n'utilise <strong>aucun cookie</strong>, aucun outil de mesure d'audience et aucun traceur publicitaire.
+      Les polices et images sont hébergées sur le site lui-même : votre navigation n'est transmise à aucun service
+      tiers. C'est pourquoi aucun bandeau de consentement ne vous est demandé.
+    </p>
+    <p>
+      Comme tout serveur web, l'hébergeur peut conserver temporairement des journaux techniques (adresse IP, date,
+      page demandée) à des fins de sécurité.
+    </p>
+
+    <h2>L'application Econoris</h2>
+    <p>Pour fonctionner, l'application ({new URL(SITE.appUrl).host}) traite :</p>
+    <ul>
+      <li><strong>Votre adresse email</strong>, pour créer votre compte et vous envoyer le code de connexion.</li>
+      <li>
+        <strong>Les opérations et abonnements que vous saisissez</strong> (montant, libellé, catégorie, date), pour
+        calculer votre budget.
+      </li>
+    </ul>
+    <p>
+      Econoris ne demande jamais vos identifiants bancaires, votre RIB ou votre carte bancaire, et n'affiche aucune
+      publicité. Vos données ne sont ni vendues ni cédées à des tiers. Elles servent uniquement à vous fournir le
+      service.
+    </p>
+
+    <h2>Vos droits</h2>
+    <p>
+      Conformément au RGPD, vous pouvez accéder à vos données, les rectifier, les supprimer ou en demander la
+      portabilité. Écrivez à <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a>. Vous pouvez également
+      adresser une réclamation à la <a href="https://www.cnil.fr/" rel="noopener">CNIL</a>.
+    </p>
+
+    <h2>Transparence</h2>
+    <p>
+      Le code source de l'application est public : vous pouvez vérifier vous-même comment vos données sont traitées
+      sur <a href={SITE.github.app} rel="noopener">GitHub</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-bottom: 80px;
+  }
+</style>

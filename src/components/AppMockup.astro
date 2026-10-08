@@ -1,0 +1,250 @@
+---
+import Icon from './Icon.astro';
+/*
+ * Reproduction en HTML/CSS de l'écran d'accueil de l'application :
+ * net sur tous les écrans, léger, et lisible par les moteurs de recherche.
+ * Les chiffres sont cohérents avec les calculs réels d'Econoris
+ * (reste = entrées + sorties ; indice = entrées / sorties hors épargne).
+ */
+---
+
+<figure class="phone" aria-labelledby="mockup-caption">
+  <figcaption id="mockup-caption" class="sr-only">
+    Aperçu de l'écran d'accueil d'Econoris : indice de gestion d'argent de 24 (très bon), 2 150 € d'entrées, 1
+    737,70 € de sorties et 412,30 € de reste possible à dépenser sur le mois financier, suivi des opérations à
+    venir.
+  </figcaption>
+  <div class="screen" aria-hidden="true">
+    <div class="card-ui index">
+      <div>
+        <div class="row muted"><Icon name="gauge" size={16} /> Indice de gestion d'argent</div>
+        <div class="small">Du <b>28 septembre</b> au <b>27 octobre</b></div>
+        <div class="index-value"><span>24</span> Très bon</div>
+      </div>
+      <Icon name="gauge" size={34} class="index-icon" />
+    </div>
+
+    <div class="card-ui">
+      <div class="row title"><Icon name="trending-up" size={16} /> Statistiques du mois</div>
+      <div class="tiles">
+        <div class="tile">
+          <span class="label">Opérations</span>
+          <strong>18</strong>
+          <span class="sub">412,30 €</span>
+        </div>
+        <div class="tile">
+          <span class="label">Entrées</span>
+          <strong class="pos">2</strong>
+          <span class="sub">2 150,00 €</span>
+        </div>
+        <div class="tile">
+          <span class="label">Sorties</span>
+          <strong class="neg">16</strong>
+          <span class="sub">-1 737,70 €</span>
+        </div>
+      </div>
+      <div class="banner">
+        <Icon name="wallet" size={16} />
+        <span>Reste possible à dépenser</span>
+        <b>412,30 €</b>
+      </div>
+    </div>
+
+    <div class="list-title"><Icon name="clock" size={16} /> Opérations à venir</div>
+    <ul class="ops">
+      <li><span class="dot" style="--c:#7e57c2"></span>Forfait mobile<small>Internet, téléphone · 2 oct.</small><b>-12,99 €</b></li>
+      <li><span class="dot" style="--c:#e53935"></span>Streaming<small>Multimédia · 5 oct.</small><b>-13,49 €</b></li>
+      <li><span class="dot" style="--c:#1e88e5"></span>Assurance auto<small>Voiture · 10 oct.</small><b>-48,00 €</b></li>
+    </ul>
+  </div>
+</figure>
+
+<style>
+  .phone {
+    margin: 0 auto;
+    width: min(100%, 340px);
+    padding: 12px;
+    border-radius: 40px;
+    background: linear-gradient(160deg, #2b261c, #14110c);
+    box-shadow:
+      0 30px 60px -20px rgb(60 40 0 / 0.45),
+      0 0 0 1px rgb(255 255 255 / 0.06) inset;
+  }
+  .screen {
+    --s-bg: #fffbf2;
+    --s-card: #ffffff;
+    --s-ink: #1f1b13;
+    --s-muted: #6f6758;
+    --s-tile: #f6efe0;
+    border-radius: 30px;
+    background: var(--s-bg);
+    color: var(--s-ink);
+    padding: 22px 14px 18px;
+    font-size: 13px;
+    line-height: 1.35;
+    display: grid;
+    gap: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .screen {
+      --s-bg: #17140f;
+      --s-card: #221e17;
+      --s-ink: #f2ecdf;
+      --s-muted: #b2a994;
+      --s-tile: #2c271e;
+    }
+  }
+  .card-ui {
+    background: var(--s-card);
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .title {
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .title :global(svg) {
+    color: #e9a100;
+  }
+  .muted {
+    color: var(--s-muted);
+  }
+  .small {
+    font-size: 11.5px;
+    color: var(--s-muted);
+  }
+  .index {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .index :global(svg) {
+    color: #43a047;
+  }
+  .index-value {
+    margin-top: 4px;
+    color: #43a047;
+    font-weight: 700;
+    font-size: 11.5px;
+  }
+  .index-value span {
+    font-size: 26px;
+    font-weight: 800;
+    margin-right: 4px;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .tile {
+    background: var(--s-tile);
+    border-radius: 10px;
+    padding: 7px 8px;
+    display: grid;
+  }
+  .label {
+    font-size: 10.5px;
+    color: var(--s-muted);
+  }
+  .tile strong {
+    font-size: 17px;
+  }
+  .pos {
+    color: #2e7d32;
+  }
+  .neg {
+    color: #c62828;
+  }
+  @media (prefers-color-scheme: dark) {
+    .pos {
+      color: #6cc070;
+    }
+    .neg {
+      color: #ef6a6a;
+    }
+  }
+  .sub {
+    font-size: 10.5px;
+  }
+  .banner {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    color: #2e7d32;
+    background: rgb(76 175 80 / 0.1);
+    border: 1px solid rgb(76 175 80 / 0.25);
+    font-weight: 700;
+  }
+  .banner span {
+    flex: 1;
+  }
+  @media (prefers-color-scheme: dark) {
+    .banner {
+      color: #7ccc80;
+    }
+  }
+  .list-title {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-weight: 800;
+    color: #c98a00;
+    margin: 4px 2px 0;
+  }
+  .list-title :global(svg) {
+    color: #1e88e5;
+  }
+  .ops {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .ops li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: 8px;
+    align-items: center;
+    background: var(--s-card);
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
+  }
+  .ops small {
+    grid-column: 2;
+    grid-row: 2;
+    font-weight: 500;
+    color: var(--s-muted);
+    font-size: 10.5px;
+  }
+  .ops b {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    color: #c62828;
+  }
+  @media (prefers-color-scheme: dark) {
+    .ops b {
+      color: #ef6a6a;
+    }
+  }
+  .dot {
+    grid-row: 1 / 3;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--c);
+  }
+</style>

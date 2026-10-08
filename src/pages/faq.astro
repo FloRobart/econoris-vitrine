@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { SITE } from '../config/site';
+import { FAQS } from '../data/faq';
+import { breadcrumbs, faqPage } from '../lib/schema';
+
+const crumbs = [{ name: 'FAQ', path: '/faq/' }];
+---
+
+<BaseLayout
+  title="Questions fréquentes sur Econoris"
+  description="Econoris est-il gratuit ? Faut-il connecter sa banque ? Comment est calculé le reste à dépenser ? Toutes les réponses sur l'application de budget Econoris."
+  schema={[faqPage(FAQS), breadcrumbs(Astro.site, crumbs)]}
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <p class="eyebrow">FAQ</p>
+    <h1>Questions fréquentes</h1>
+    <p class="lead">
+      Tout ce qu'il faut savoir sur Econoris, l'application gratuite qui vous dit ce que vous pouvez dépenser avant de
+      dépenser. Une autre question ? Écrivez à <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a>.
+    </p>
+  </section>
+
+  <section class="container faq-wrap">
+    <FaqList items={FAQS} />
+  </section>
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .faq-wrap {
+    padding-bottom: 24px;
+  }
+  .faq-wrap :global(.faq) {
+    margin-inline: 0;
+  }
+</style>

@@ -1,0 +1,155 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { NAV, SITE } from '../config/site';
+
+const current = Astro.url.pathname;
+const isActive = (href: string) => current === href || current.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a href="/" class="brand" aria-label="Econoris, accueil">
+      <Logo size={34} />
+      <span>Econoris</span>
+    </a>
+
+    <nav aria-label="Navigation principale" class="nav-desktop">
+      <ul>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="btn btn-primary btn-sm cta-desktop" href={SITE.appUrl}>Ouvrir l'application</a>
+
+    <details class="nav-mobile">
+      <summary aria-label="Ouvrir le menu"><Icon name="menu" size={24} /></summary>
+      <nav aria-label="Navigation mobile">
+        <ul>
+          {
+            NAV.map((item) => (
+              <li>
+                <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+          <li><a href="/a-propos/">À propos</a></li>
+        </ul>
+        <a class="btn btn-primary" href={SITE.appUrl}>Ouvrir l'application</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 68px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .nav-desktop ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-desktop a,
+  .nav-mobile ul a {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 0.97rem;
+    text-decoration: none;
+  }
+  .nav-desktop a:hover,
+  .nav-desktop a[aria-current='page'] {
+    color: var(--ink);
+    background: var(--bg-alt);
+  }
+
+  .nav-mobile {
+    display: none;
+    position: relative;
+  }
+  .nav-mobile summary {
+    list-style: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .nav-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+  .nav-mobile nav {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    width: min(84vw, 300px);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 0.75rem;
+  }
+  .nav-mobile ul {
+    list-style: none;
+    margin: 0 0 0.75rem;
+    padding: 0;
+  }
+  .nav-mobile ul a {
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.05rem;
+  }
+  .nav-mobile .btn {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .nav-desktop,
+    .cta-desktop {
+      display: none;
+    }
+    .nav-mobile {
+      display: block;
+    }
+  }
+</style>

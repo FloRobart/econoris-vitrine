@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import Icon from '../../components/Icon.astro';
+import { abs, breadcrumbs } from '../../lib/schema';
+
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [{ name: 'Guides budget', path: '/guides/' }];
+
+const itemList = {
+  '@type': 'ItemList',
+  name: 'Guides pour gérer son budget',
+  itemListElement: guides.map((g, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: abs(`/guides/${g.id}/`, Astro.site),
+    name: g.data.title,
+  })),
+};
+---
+
+<BaseLayout
+  title="Guides pour gérer son budget et ses finances personnelles"
+  description="Guides gratuits et concrets pour gérer son budget : méthode en 5 étapes, calcul du reste à vivre, règle 50/30/20, abonnements, choix d'une application."
+  schema={[itemList, breadcrumbs(Astro.site, crumbs)]}
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <p class="eyebrow">Guides budget</p>
+    <h1>Apprendre à gérer son budget, simplement</h1>
+    <p class="lead">
+      Des guides courts et concrets pour reprendre la main sur vos finances personnelles, sans jargon. Gratuits,
+      comme Econoris.
+    </p>
+  </section>
+
+  <section class="container list">
+    {
+      guides.map((g) => (
+        <a class="card guide" href={`/guides/${g.id}/`}>
+          <span class="icon-chip">
+            <Icon name="book" />
+          </span>
+          <div>
+            <h2>{g.data.title}</h2>
+            <p>{g.data.description}</p>
+            <span class="more">
+              Lire le guide <Icon name="arrow-right" size={16} />
+            </span>
+          </div>
+        </a>
+      ))
+    }
+  </section>
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .list {
+    display: grid;
+    gap: 16px;
+    max-width: 900px;
+  }
+  .guide {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .guide:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 520px) {
+    .guide {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+  .guide h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.35em;
+  }
+  .guide p {
+    margin-bottom: 0.6rem;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    color: var(--link);
+  }
+</style>

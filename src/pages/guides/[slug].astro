@@ -1,0 +1,158 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BudgetCalculator from '../../components/BudgetCalculator.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { abs, breadcrumbs, person } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({ params: { slug: guide.id }, props: { guide, all: guides } }));
+}
+
+const { guide, all } = Astro.props;
+const { Content, headings } = await render(guide);
+const { title, shortTitle, description, pubDate, updatedDate } = guide.data;
+
+const words = (guide.body ?? '').split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(1, Math.round(words / 220));
+const url = abs(`/guides/${guide.id}/`, Astro.site);
+const modified = updatedDate ?? pubDate;
+const dateFmt = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
+
+const crumbs = [
+  { name: 'Guides budget', path: '/guides/' },
+  { name: shortTitle, path: `/guides/${guide.id}/` },
+];
+
+const article = {
+  '@type': 'Article',
+  headline: title,
+  description,
+  url,
+  mainEntityOfPage: url,
+  image: abs('/og-image.png', Astro.site),
+  datePublished: pubDate.toISOString(),
+  dateModified: modified.toISOString(),
+  inLanguage: 'fr-FR',
+  wordCount: words,
+  author: person(),
+  publisher: { '@id': abs('/#organization', Astro.site) },
+  about: { '@id': abs('/#app', Astro.site) },
+};
+
+const toc = headings.filter((h) => h.depth === 2);
+const related = all.filter((g) => g.id !== guide.id).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const showCalculator = guide.id === 'calculer-reste-a-vivre' || guide.id === 'comment-gerer-son-budget';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  publishedTime={pubDate}
+  modifiedTime={modified}
+  schema={[article, breadcrumbs(Astro.site, crumbs)]}
+>
+  <article>
+    <header class="container page-hero">
+      <Breadcrumbs items={crumbs} />
+      <p class="eyebrow">Guide budget</p>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      <p class="meta">
+        Par {person().name} · Mis à jour le <time datetime={modified.toISOString()}>{dateFmt.format(modified)}</time>
+        {` · ${minutes} min de lecture`}
+      </p>
+    </header>
+
+    <div class="container layout">
+      <div class="prose">
+        {
+          toc.length > 2 && (
+            <nav class="toc" aria-label="Sommaire">
+              <p>Sommaire</p>
+              <ol>
+                {toc.map((h) => (
+                  <li>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+        <Content />
+        {
+          showCalculator && (
+            <div class="calc-slot">
+              <BudgetCalculator id={`calc-${guide.id}`} />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </article>
+
+  <section class="container related">
+    <h2>À lire aussi</h2>
+    <ul>
+      {
+        related.map((g) => (
+          <li>
+            <a href={`/guides/${g.id}/`}>{g.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <CtaBanner
+    title="Passez de la théorie à la pratique"
+    text="Econoris applique cette méthode pour vous : il calcule chaque jour ce que vous pouvez encore dépenser. Gratuit, sans pub, sans connexion bancaire."
+  />
+</BaseLayout>
+
+<style>
+  .meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  .layout {
+    padding-bottom: 32px;
+  }
+  .prose :global(h2) {
+    scroll-margin-top: 90px;
+  }
+  .toc {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2rem;
+  }
+  .toc p {
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .toc ol {
+    margin: 0;
+  }
+  .calc-slot {
+    margin-top: 2.5rem;
+  }
+  .related {
+    max-width: calc(720px + 2 * var(--gutter));
+    padding-block: 24px;
+  }
+  .related h2 {
+    font-size: 1.3rem;
+  }
+  .related ul {
+    padding-left: 1.2em;
+    display: grid;
+    gap: 0.5rem;
+  }
+</style>

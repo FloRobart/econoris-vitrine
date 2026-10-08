@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../config/site';
+import { abs, breadcrumbs } from '../lib/schema';
+
+const crumbs = [{ name: 'Installer', path: '/installer/' }];
+const appHost = new URL(SITE.appUrl).host;
+
+const howTo = {
+  '@type': 'HowTo',
+  name: 'Installer Econoris sur son téléphone',
+  description:
+    "Installer gratuitement l'application de budget Econoris sur Android ou iPhone, sans passer par un store, en l'ajoutant à l'écran d'accueil.",
+  totalTime: 'PT1M',
+  estimatedCost: { '@type': 'MonetaryAmount', currency: 'EUR', value: '0' },
+  tool: [{ '@type': 'HowToTool', name: 'Un navigateur web (Chrome sur Android, Safari sur iPhone)' }],
+  step: [
+    { '@type': 'HowToStep', name: 'Ouvrir Econoris', text: `Ouvrez ${SITE.appUrl} dans votre navigateur.`, url: abs('/installer/#telephone', Astro.site) },
+    { '@type': 'HowToStep', name: 'Ouvrir le menu', text: 'Sur Android, touchez le menu ⋮ de Chrome. Sur iPhone, touchez le bouton Partager de Safari.' },
+    { '@type': 'HowToStep', name: "Ajouter à l'écran d'accueil", text: "Choisissez « Installer l'application » ou « Ajouter à l'écran d'accueil », puis confirmez." },
+    { '@type': 'HowToStep', name: 'Se connecter', text: 'Ouvrez Econoris depuis son icône, saisissez votre email et le code reçu.' },
+  ],
+};
+---
+
+<BaseLayout
+  title="Installer Econoris sur Android, iPhone et ordinateur"
+  description="Installez Econoris gratuitement en 1 minute : sur Android, iPhone, Windows, macOS ou Linux, sans store, plus l'extension Chrome et Firefox. Guide pas à pas."
+  schema={[howTo, breadcrumbs(Astro.site, crumbs)]}
+>
+  <section class="container page-hero">
+    <Breadcrumbs items={crumbs} />
+    <p class="eyebrow">Installation</p>
+    <h1>Installer Econoris</h1>
+    <p class="lead">
+      Econoris est une application web : elle fonctionne immédiatement dans votre navigateur, sur tous vos
+      appareils. Vous pouvez aussi l'installer sur votre écran d'accueil en moins d'une minute, gratuitement et sans
+      passer par un store.
+    </p>
+    <div class="quick card">
+      <div>
+        <h2>Le plus rapide : rien à installer</h2>
+        <p>Ouvrez l'application, saisissez votre email, entrez le code reçu. C'est tout.</p>
+      </div>
+      <a class="btn btn-primary" href={SITE.appUrl}>Ouvrir {appHost} <Icon name="arrow-right" size={18} /></a>
+    </div>
+    <ul class="pill-list">
+      <li><Icon name="check" size={18} /> Navigateur récent</li>
+      <li><Icon name="check" size={18} /> Une adresse email</li>
+      <li><Icon name="check" size={18} /> Connexion internet</li>
+    </ul>
+  </section>
+
+  <div class="container steps-wrap">
+    <section id="compte" class="block">
+      <header>
+        <span class="icon-chip"><Icon name="mail" /></span>
+        <h2>1. Créer son compte (30 secondes)</h2>
+      </header>
+      <ol>
+        <li>Rendez-vous sur <a href={SITE.appUrl}>{appHost}</a>.</li>
+        <li>Saisissez votre adresse email et validez.</li>
+        <li>Un code vous est envoyé par email : recopiez-le dans l'application.</li>
+        <li>Vous êtes connecté. Il n'y a <strong>aucun mot de passe</strong> à créer ou à retenir.</li>
+      </ol>
+      <p class="tip">Astuce : commencez par ajouter votre salaire avec la catégorie « Salaire ». Econoris s'en sert pour caler votre mois financier sur votre jour de paie.</p>
+    </section>
+
+    <section id="telephone" class="block">
+      <header>
+        <span class="icon-chip"><Icon name="smartphone" /></span>
+        <h2>2. Installer sur téléphone</h2>
+      </header>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Android (Chrome)</h3>
+          <ol>
+            <li>Ouvrez <a href={SITE.appUrl}>{appHost}</a> dans Chrome.</li>
+            <li>Touchez le menu <strong>⋮</strong> en haut à droite.</li>
+            <li>Choisissez <strong>« Installer l'application »</strong> ou <strong>« Ajouter à l'écran d'accueil »</strong>.</li>
+            <li>Confirmez : l'icône Econoris apparaît avec vos autres applications.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>iPhone et iPad (Safari)</h3>
+          <ol>
+            <li>Ouvrez <a href={SITE.appUrl}>{appHost}</a> dans Safari.</li>
+            <li>Touchez le bouton <strong>Partager</strong> (carré avec une flèche vers le haut).</li>
+            <li>Faites défiler et choisissez <strong>« Sur l'écran d'accueil »</strong>.</li>
+            <li>Touchez <strong>Ajouter</strong> : Econoris s'ouvre désormais en plein écran.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="ordinateur" class="block">
+      <header>
+        <span class="icon-chip"><Icon name="monitor" /></span>
+        <h2>3. Installer sur ordinateur</h2>
+      </header>
+      <p>
+        Sur Windows, macOS ou Linux, Econoris fonctionne dans tous les navigateurs. Avec <strong>Chrome</strong> ou <strong>Edge</strong>, vous pouvez aussi l'installer comme un logiciel :
+      </p>
+      <ol>
+        <li>Ouvrez <a href={SITE.appUrl}>{appHost}</a>.</li>
+        <li>Cliquez sur l'icône <strong>Installer</strong> à droite de la barre d'adresse (ou menu ⋮ → « Caster, enregistrer et partager » → « Installer la page en tant qu'application »).</li>
+        <li>Econoris s'ouvre dans sa propre fenêtre et apparaît dans votre menu Démarrer ou votre Dock.</li>
+      </ol>
+      <p>Sous Firefox et Safari, ajoutez simplement l'adresse à vos favoris.</p>
+    </section>
+
+    <section id="extension" class="block">
+      <header>
+        <span class="icon-chip"><Icon name="puzzle" /></span>
+        <h2>4. Ajouter l'extension navigateur</h2>
+      </header>
+      <p>
+        L'extension Econoris pour <strong>Chrome</strong> et <strong>Firefox</strong> permet d'ajouter une dépense ou
+        un revenu en quelques secondes, depuis n'importe quelle page. Si vous êtes connecté à l'application web,
+        elle reprend automatiquement votre session.
+      </p>
+      {
+        SITE.extension.chrome || SITE.extension.firefox ? (
+          <div class="store-links">
+            {SITE.extension.chrome && (
+              <a class="btn btn-primary" href={SITE.extension.chrome}>
+                <Icon name="download" size={18} /> Chrome Web Store
+              </a>
+            )}
+            {SITE.extension.firefox && (
+              <a class="btn btn-primary" href={SITE.extension.firefox}>
+                <Icon name="download" size={18} /> Firefox Add-ons
+              </a>
+            )}
+          </div>
+        ) : (
+          <>
+            <p class="tip">
+              L'extension arrive bientôt sur le Chrome Web Store et sur Firefox Add-ons. En attendant, vous pouvez
+              l'installer sur Chrome depuis GitHub :
+            </p>
+            <ol>
+              <li>
+                Téléchargez le fichier <code>econoris-extension-X.Y.Z.zip</code> de la <a href={SITE.extension.releases} rel="noopener">dernière version sur GitHub</a> et décompressez-le.
+              </li>
+              <li>Ouvrez <code>chrome://extensions</code> et activez le <strong>mode développeur</strong> (en haut à droite).</li>
+              <li>Cliquez sur <strong>« Charger l'extension non empaquetée »</strong> et choisissez le dossier décompressé.</li>
+              <li>Épinglez l'icône Econoris dans la barre d'outils pour l'avoir toujours sous la main.</li>
+            </ol>
+          </>
+        )
+      }
+    </section>
+
+    <section id="auto-hebergement" class="block">
+      <header>
+        <span class="icon-chip"><Icon name="server" /></span>
+        <h2>5. Pour les experts : héberger Econoris soi-même</h2>
+      </header>
+      <p>
+        Econoris est open source (GPL-3.0). Si vous voulez garder vos données sur votre propre serveur, l'application
+        web est publiée en image Docker (<code>{SITE.dockerImage}</code>) et le serveur d'API est disponible sur
+        GitHub.
+      </p>
+      <ul class="links">
+        <li><a href={SITE.github.app} rel="noopener">Application (Flutter)</a></li>
+        <li><a href={SITE.github.server} rel="noopener">Serveur d'API (Node.js, PostgreSQL)</a></li>
+        <li><a href={SITE.github.extension} rel="noopener">Extension navigateur</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <CtaBanner title="C'est installé ? Ajoutez votre première dépense." />
+</BaseLayout>
+
+<style>
+  .quick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    margin: 2rem 0 1.25rem;
+    border-color: color-mix(in srgb, var(--brand) 50%, var(--line));
+    background: linear-gradient(135deg, var(--brand-soft), var(--surface) 70%);
+  }
+  .quick h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.25em;
+  }
+  .quick p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .quick .btn {
+    white-space: normal;
+  }
+  .steps-wrap {
+    display: grid;
+    gap: clamp(40px, 6vw, 64px);
+    padding-block: clamp(24px, 4vw, 48px);
+  }
+  .block {
+    scroll-margin-top: 90px;
+    max-width: 900px;
+  }
+  .block header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1rem;
+  }
+  .block header .icon-chip {
+    margin: 0;
+    flex: none;
+  }
+  .block header h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+  }
+  .block p,
+  .block li {
+    color: var(--ink-soft);
+  }
+  ol,
+  .links {
+    padding-left: 1.3em;
+    display: grid;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+  }
+  .card ol {
+    margin: 0;
+  }
+  .tip {
+    padding: 0.9rem 1.1rem;
+    border-left: 4px solid var(--brand);
+    background: var(--bg-alt);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .store-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>
