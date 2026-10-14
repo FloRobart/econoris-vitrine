@@ -28,7 +28,7 @@ const siteHost = Astro.site?.host ?? '';
     <p>
       {SITE.host.name}<br />
       {SITE.host.address}<br />
-      {SITE.host.contact}
+      <a href={SITE.host.contact} target="_blank" rel="noopener noreferrer">Site de l'hébergeur (OVH NET)</a>
     </p>
 
     <h2>Propriété intellectuelle</h2>

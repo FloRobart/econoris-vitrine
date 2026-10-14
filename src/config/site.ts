@@ -20,7 +20,7 @@ export const SITE = {
 
   author: {
     name: 'Floris Robart',
-    url: 'https://florobart.github.io/',
+    url: 'https://florobart.fr',
     email: 'florobart.github@gmail.com',
   },
 
@@ -32,7 +32,7 @@ export const SITE = {
 
   /** Laisser à null tant que l'extension n'est pas publiée sur le store. */
   extension: {
-    chrome: null as string | null,
+    chrome: 'https://chromewebstore.google.com/detail/gihpedfefdokbgjolodmcfpcjkeclhcc?utm_source=item-share-cb',
     firefox: null as string | null,
     releases: 'https://github.com/FloRobart/econoris-extension/releases',
   },
@@ -49,9 +49,9 @@ export const SITE = {
 
   /** Obligatoire dans les mentions légales (LCEN, art. 6). À compléter. */
   host: {
-    name: '[Nom de l’hébergeur à compléter]',
-    address: '[Adresse de l’hébergeur à compléter]',
-    contact: '[Téléphone ou site de l’hébergeur à compléter]',
+    name: 'OVH NET',
+    address: '140 Quai du Sartel, 59100 Roubaix, France',
+    contact: 'https://www.ovhcloud.com/fr/',
   },
 } as const;
 

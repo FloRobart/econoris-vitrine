@@ -1,0 +1,43 @@
+services:
+  # Econoris Vitrine #
+  econoris-vitrine:
+    image: florobart/econoris-vitrine:latest
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-https://www.econoris.fr}
+    restart: always
+    networks:
+      - flower-garden-net
+    ports:
+      - ${APP_PORT:-26004}:80
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+      - CHOWN
+      - SETGID
+      - SETUID
+    read_only: true
+    user: "1800:1800"
+    tmpfs:
+      - /tmp:exec,nosuid,nodev,uid=1800,gid=1800
+      - /run:rw,mode=0755,uid=1800,gid=1800
+      - /run/nginx:rw,mode=0755,uid=1800,gid=1800
+      - /var/cache/nginx:rw,uid=1800,gid=1800
+      - /var/cache/nginx/client_temp:rw,uid=1800,gid=1800
+      - /var/cache/nginx/proxy_temp:rw,uid=1800,gid=1800
+      - /var/cache/nginx/fastcgi_temp:rw,uid=1800,gid=1800
+      - /var/cache/nginx/uwsgi_temp:rw,uid=1800,gid=1800
+      - /var/cache/nginx/scgi_temp:rw,uid=1800,gid=1800
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:80/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  flower-garden-net:
+    external: true

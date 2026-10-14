@@ -1,0 +1,31 @@
+services:
+  # Econoris Vitrine (développement, rechargement à chaud) #
+  econoris-vitrine:
+    # Image Debian (glibc) et non Alpine (musl) : les node_modules de la machine
+    # hôte sont montés tels quels, leurs binaires natifs (rolldown, sharp) sont glibc.
+    image: node:24-slim
+    working_dir: /app
+    env_file: .env
+    environment:
+      - ASTRO_TELEMETRY_DISABLED=1
+    volumes:
+      - ./:/app/
+    # --host : écouter hors du conteneur (par défaut Astro n'écoute que sur localhost).
+    # Astro laisse son verrou .astro/dev.json à l'arrêt : au démarrage d'un nouveau
+    # conteneur il est forcément périmé, on le supprime (sinon « already running »).
+    # init + exec : arrêt immédiat et propre sur Ctrl-C / docker compose down.
+    init: true
+    command: sh -c "cd /app && rm -f .astro/dev.json && exec npm run dev -- --host 0.0.0.0 --port 4321"
+    networks:
+      - flower-garden-net
+    ports:
+      - ${APP_PORT:-26004}:4321
+    # Même UID/GID que le propriétaire des sources, sinon Astro ne peut pas écrire
+    # .astro/ ni node_modules/.vite. À adapter dans .env si votre UID n'est pas 1000.
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    tmpfs:
+      - /tmp:exec,nosuid,nodev
+
+networks:
+  flower-garden-net:
+    external: true

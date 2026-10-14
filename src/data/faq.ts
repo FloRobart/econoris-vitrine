@@ -23,6 +23,11 @@ export const FAQS: Faq[] = [
     home: true,
   },
   {
+    q: 'Comment Econoris gagne de l’argent si c’est gratuit ?',
+    a: "Econoris ne gagne pas d'argent. C'est un projet open source sous licence GPL-3.0. Il a initialement été développé pour répondre à un besoin personnel du créateur, puis a été mis à disposition par le créateur. Il ne génère donc aucun revenu.",
+    home: true,
+  },
+  {
     q: 'Comment Econoris calcule-t-il ce que je peux dépenser ?',
     a: "Econoris additionne tous les revenus du mois financier (salaire, aides, primes…) puis retire toutes les dépenses du même mois, y compris celles qui ne sont pas encore passées : loyer à venir, abonnements, factures prévues. Le résultat est votre « reste possible à dépenser ». Comme les dépenses futures sont déjà déduites, ce montant correspond à ce que vous pouvez réellement dépenser sans vous mettre dans le rouge.",
     home: true,

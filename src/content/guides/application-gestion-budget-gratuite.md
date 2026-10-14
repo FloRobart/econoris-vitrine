@@ -57,6 +57,7 @@ order: 5
 [Econoris](/) appartient à la quatrième famille. Ses caractéristiques :
 
 - **100 % gratuit**, sans version premium ni publicité ;
+  - Si vous vous demandez comment un service entièrement gratuit se finance, la réponse est simple : **il ne se finance pas**. Le créateur d'Econoris est un particulier qui a développé cet outil pour lui-même, et le partage avec tous le monde pour rendre la gestion de budget plus simple et plus transparente. Il n'y a pas de publicité, pas de revente de données, et pas de version payante.
 - **reste possible à dépenser** calculé en temps réel, dépenses futures et abonnements déjà déduits ;
 - **mois financier calé sur votre paie** : votre budget va de salaire à salaire ;
 - **aucune connexion bancaire** : vous saisissez vos opérations, en quelques secondes ;
