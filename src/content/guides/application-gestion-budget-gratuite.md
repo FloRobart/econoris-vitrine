@@ -54,7 +54,7 @@ order: 5
 
 ## Econoris : une application gratuite pensée pour anticiper
 
-[Econoris](/) appartient à la quatrième famille. Ses caractéristiques :
+Econoris appartient à la quatrième famille. Ses caractéristiques :
 
 - **100 % gratuit**, sans version premium ni publicité ;
   - Si vous vous demandez comment un service entièrement gratuit se finance, la réponse est simple : **il ne se finance pas**. Le créateur d'Econoris est un particulier qui a développé cet outil pour lui-même, et le partage avec tous le monde pour rendre la gestion de budget plus simple et plus transparente. Il n'y a pas de publicité, pas de revente de données, et pas de version payante.

@@ -72,4 +72,4 @@ Il n'existe pas de montant officiel unique : tout dépend de la composition du f
 
 ## Calculez votre reste à dépenser maintenant
 
-Utilisez le calculateur ci-dessous pour estimer ce qu'il vous reste ce mois-ci. Pour un suivi automatique, [Econoris](/) refait ce calcul pour vous à chaque opération, en déduisant à l'avance vos dépenses prévues et vos abonnements, sur un mois calé sur votre jour de paie.
+Utilisez le calculateur ci-dessous pour estimer ce qu'il vous reste ce mois-ci. Pour un suivi automatique, Econoris refait ce calcul pour vous à chaque opération, en déduisant à l'avance vos dépenses prévues et vos abonnements, sur un mois calé sur votre jour de paie.

@@ -76,6 +76,6 @@ Si le montant par jour baisse trop, levez le pied sur les dépenses plaisir. S'i
 
 ## Quel outil utiliser ?
 
-Un carnet, un tableur ou une application peuvent suffire. Ce qui compte, c'est que l'outil vous montre **votre reste à dépenser en tenant compte des dépenses à venir**. C'est précisément ce que fait [Econoris](/), gratuitement : vous notez vos revenus, vos dépenses et vos abonnements, et l'application affiche en permanence combien vous pouvez encore dépenser jusqu'à votre prochaine paie.
+Un carnet, un tableur ou une application peuvent suffire. Ce qui compte, c'est que l'outil vous montre **votre reste à dépenser en tenant compte des dépenses à venir**. C'est précisément ce que fait Econoris, gratuitement : vous notez vos revenus, vos dépenses et vos abonnements, et l'application affiche en permanence combien vous pouvez encore dépenser jusqu'à votre prochaine paie.
 
 Pour choisir, consultez aussi notre comparatif : [quelle application gratuite pour gérer son budget](/guides/application-gestion-budget-gratuite/).

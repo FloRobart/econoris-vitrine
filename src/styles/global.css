@@ -134,6 +134,19 @@ a:hover {
   text-decoration-thickness: 2px;
 }
 
+/* « Econoris » cliquable dans le texte (ajouté par src/middleware.ts) :
+   discret, il garde la couleur du texte qui l'entoure. */
+.app-link {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--brand);
+  text-decoration-thickness: 2px;
+}
+.app-link:hover {
+  color: var(--link);
+}
+
 :focus-visible {
   outline: 3px solid var(--brand);
   outline-offset: 3px;

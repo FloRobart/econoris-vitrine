@@ -53,7 +53,7 @@ En France, la résiliation des contrats souscrits en ligne doit pouvoir se faire
 
 Un abonnement n'est pas une dépense imprévue : il doit être **déduit de votre budget avant d'être prélevé**. Sinon, votre solde bancaire vous fait croire que vous avez plus d'argent que vous n'en avez réellement.
 
-C'est ce que fait [Econoris](/) : vous enregistrez chaque abonnement une fois, avec sa récurrence (mensuelle, trimestrielle, semestrielle ou annuelle). L'application le place automatiquement dans vos opérations à venir et le retire de votre « reste possible à dépenser ». Vous voyez aussi d'un coup d'œil combien vos abonnements vous coûtent chaque mois.
+C'est ce que fait Econoris : vous enregistrez chaque abonnement une fois, avec sa récurrence (mensuelle, trimestrielle, semestrielle ou annuelle). L'application le place automatiquement dans vos opérations à venir et le retire de votre « reste possible à dépenser ». Vous voyez aussi d'un coup d'œil combien vos abonnements vous coûtent chaque mois.
 
 ## Les bons réflexes à garder
 
