@@ -2,11 +2,10 @@ services:
   # Econoris Vitrine #
   econoris-vitrine:
     image: florobart/econoris-vitrine:latest
-    build:
-      context: .
-      args:
-        SITE_URL: ${SITE_URL:-}
+    working_dir: /app
     restart: always
+    env_file:
+      - .env
     networks:
       - flower-garden-net
     ports:

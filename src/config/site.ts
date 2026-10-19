@@ -33,7 +33,7 @@ export const SITE = {
   /** Laisser à null tant que l'extension n'est pas publiée sur le store. */
   extension: {
     chrome: 'https://chromewebstore.google.com/detail/gihpedfefdokbgjolodmcfpcjkeclhcc?utm_source=item-share-cb',
-    firefox: null as string | null,
+    firefox: 'https://addons.mozilla.org/en-US/firefox/addon/econoris/',
     releases: 'https://github.com/FloRobart/econoris-extension/releases',
   },
 
