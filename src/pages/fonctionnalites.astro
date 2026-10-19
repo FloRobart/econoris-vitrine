@@ -3,14 +3,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import Icon from '../components/Icon.astro';
+import Screenshot from '../components/Screenshot.astro';
 import { breadcrumbs, softwareApplication } from '../lib/schema';
+import { getScreenshotImageObjects, hasScreenshot } from '../lib/screenshots';
 
 const crumbs = [{ name: 'Fonctionnalités', path: '/fonctionnalites/' }];
+const screenshots = await getScreenshotImageObjects(Astro.site);
 
+// screenshot: real capture shown next to the text (see src/lib/screenshots.ts), null when none fits.
 const sections = [
   {
     id: 'reste-a-depenser',
     icon: 'wallet',
+    screenshot: 'home',
     title: 'Le reste possible à dépenser',
     text: [
       "C'est le cœur d'Econoris. Sur l'écran d'accueil, un seul chiffre vous dit combien vous pouvez encore dépenser jusqu'à la fin de votre mois financier.",
@@ -21,6 +26,7 @@ const sections = [
   {
     id: 'mois-financier',
     icon: 'calendar',
+    screenshot: null,
     title: 'Un mois financier calé sur votre salaire',
     text: [
       "Votre budget ne commence pas le 1er du mois : il commence quand votre salaire arrive. Econoris repère automatiquement votre paie (catégorie « Salaire ») et calcule toutes vos statistiques de paie à paie.",
@@ -30,6 +36,7 @@ const sections = [
   {
     id: 'operations-a-venir',
     icon: 'clock',
+    screenshot: 'operationForm',
     title: 'Opérations passées et à venir',
     text: [
       "Ajoutez une opération en quelques secondes : un montant, un libellé, une catégorie, une date. Si la date est dans le futur, l'opération apparaît dans « Opérations à venir » et elle est déjà déduite de votre reste à dépenser.",
@@ -39,6 +46,7 @@ const sections = [
   {
     id: 'abonnements',
     icon: 'repeat',
+    screenshot: 'subscriptions',
     title: 'Le suivi des abonnements',
     text: [
       'Streaming, forfait mobile, box internet, salle de sport, assurance… Enregistrez chaque abonnement une seule fois avec sa récurrence : mensuelle, trimestrielle, semestrielle ou annuelle.',
@@ -48,6 +56,7 @@ const sections = [
   {
     id: 'indice',
     icon: 'gauge',
+    screenshot: null,
     title: "L'indice de gestion d'argent",
     text: [
       "Un seul chiffre pour juger votre mois. L'indice compare ce que vous gagnez à ce que vous dépensez, hors épargne et investissements.",
@@ -58,6 +67,7 @@ const sections = [
   {
     id: 'categories',
     icon: 'tag',
+    screenshot: 'categories',
     title: 'Plus de 50 catégories prêtes à l’emploi',
     text: [
       "Courses, restaurants, loyer, énergie, transports, santé, loisirs, impôts, épargne, cryptomonnaies… Les catégories couvrent la vie courante sans rien avoir à configurer.",
@@ -67,6 +77,7 @@ const sections = [
   {
     id: 'extension',
     icon: 'puzzle',
+    screenshot: 'extension',
     title: 'Une extension navigateur pour aller plus vite',
     text: [
       "L'extension Econoris pour Chrome et Firefox ajoute une dépense ou un revenu en quelques secondes, directement depuis la barre du navigateur. Idéal juste après un achat en ligne.",
@@ -74,11 +85,22 @@ const sections = [
     ],
   },
   {
+    id: 'compte',
+    icon: 'lock',
+    screenshot: 'profile',
+    title: 'Votre compte, sous contrôle',
+    text: [
+      "Pas de mot de passe à retenir ni à se faire voler : vous vous connectez avec un code à usage unique reçu par email.",
+      "Depuis votre profil, vous voyez l'état de votre compte et vous pouvez vous déconnecter de l'appareil en cours, ou de tous vos appareils d'un seul geste, par exemple après avoir perdu votre téléphone.",
+    ],
+  },
+  {
     id: 'confort',
     icon: 'moon',
+    screenshot: 'darkTheme',
     title: 'Simple, clair, agréable',
     text: [
-      "Connexion sans mot de passe par code email, thème clair ou sombre, interface en français, montants en euros. Econoris s'ouvre sur téléphone, tablette et ordinateur, et s'installe sur l'écran d'accueil comme une application.",
+      "Thème clair ou sombre, interface en français, montants en euros. Econoris s'ouvre sur téléphone, tablette et ordinateur, et s'installe sur l'écran d'accueil comme une application.",
     ],
   },
 ] as const;
@@ -87,7 +109,7 @@ const sections = [
 <BaseLayout
   title="Fonctionnalités : reste à dépenser, abonnements, mois financier"
   description="Découvrez les fonctionnalités d'Econoris : reste à dépenser en temps réel, mois calé sur votre paie, dépenses à venir, suivi des abonnements et indice de gestion. 100 % gratuit."
-  schema={[softwareApplication(Astro.site), breadcrumbs(Astro.site, crumbs)]}
+  schema={[softwareApplication(Astro.site, screenshots), breadcrumbs(Astro.site, crumbs)]}
 >
   <section class="container page-hero">
     <Breadcrumbs items={crumbs} />
@@ -104,7 +126,7 @@ const sections = [
   <div class="container features">
     {
       sections.map((s) => (
-        <section id={s.id} class="feature">
+        <section id={s.id} class:list={['feature', { 'has-screenshot': s.screenshot && hasScreenshot(s.screenshot) }]}>
           <span class="icon-chip">
             <Icon name={s.icon} />
           </span>
@@ -114,6 +136,7 @@ const sections = [
               <p>{p}</p>
             ))}
           </div>
+          {s.screenshot && <Screenshot name={s.screenshot} class="feature-screenshot" />}
         </section>
       ))
     }
@@ -206,10 +229,30 @@ const sections = [
     border-radius: var(--radius);
     scroll-margin-top: 90px;
   }
+  /* Screenshot in a third column on wide screens, under the text otherwise. */
+  .feature.has-screenshot {
+    grid-template-columns: auto 1fr minmax(0, 240px);
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .feature.has-screenshot {
+      grid-template-columns: auto 1fr;
+    }
+    .feature :global(.feature-screenshot) {
+      grid-column: 2;
+      max-width: 260px;
+      margin: 0.5rem 0 0;
+    }
+  }
   @media (max-width: 560px) {
-    .feature {
+    .feature,
+    .feature.has-screenshot {
       grid-template-columns: 1fr;
       gap: 0;
+    }
+    .feature :global(.feature-screenshot) {
+      grid-column: 1;
+      margin: 1.25rem auto 0;
     }
   }
   .feature h2 {

@@ -1,16 +1,24 @@
 import { SITE } from '../config/site';
 
 /**
- * Transforme chaque « Econoris » écrit dans le texte visible d'une page HTML
- * en lien vers l'application (SITE.appUrl).
+ * Turns the first "Econoris" written in the visible text of an HTML page
+ * into a link to the app (SITE.appUrl). The following mentions stay plain
+ * text: one link per page is enough, and a page full of identical links
+ * is confusing for visitors and dilutes the internal linking for Google.
  *
- * Les éléments où un lien serait invalide ou gênant sont ignorés :
- * <head> (title, meta, JSON-LD), liens existants, boutons, <summary> (le clic
- * doit ouvrir la question de la FAQ), textes réservés aux lecteurs d'écran
- * (<figcaption> du mockup), code, SVG…
+ * Elements where a link would be invalid or annoying are ignored:
+ * <head> (title, meta, JSON-LD), headings, existing links, buttons, <summary>
+ * (a click must open the FAQ question), screen-reader-only texts
+ * (<figcaption> of the mockup), code, SVG…
  */
 const SKIP = new Set([
   'head',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
   'a',
   'button',
   'summary',
@@ -26,22 +34,34 @@ const SKIP = new Set([
   'title',
 ]);
 
-/** Contenu brut : on saute directement à la balise fermante. */
+/** Raw content: jump straight to the closing tag. */
 const RAW = new Set(['script', 'style']);
 
 const TOKEN = /<!--[\s\S]*?-->|<\/?[a-zA-Z][^\s/>]*(?:"[^"]*"|'[^']*'|[^'">])*>/g;
-const WORD = /(?<![\p{L}\p{N}_\-./@])[EÉ]conoris(?![\p{L}\p{N}_\-@]|\.[\p{L}\p{N}])/gu;
-const LINK = `<a href="${SITE.appUrl}" class="app-link">$&</a>`;
+const WORD = /(?<![\p{L}\p{N}_\-./@])[EÉ]conoris(?![\p{L}\p{N}_\-@]|\.[\p{L}\p{N}])/u;
 
 export function linkBrand(html: string): string {
   const stack: string[] = [];
+  let isBrandLinked = false;
   let out = '';
   let last = 0;
 
+  /** Links the first brand mention found in a text node, if no link was added yet. */
+  const linkFirstMention = (text: string): string => {
+    if (isBrandLinked || stack.length > 0) return text;
+
+    const mention = WORD.exec(text);
+    if (!mention) return text;
+
+    isBrandLinked = true;
+    const before = text.slice(0, mention.index);
+    const after = text.slice(mention.index + mention[0].length);
+    return `${before}<a href="${SITE.appUrl}" class="app-link">${mention[0]}</a>${after}`;
+  };
+
   TOKEN.lastIndex = 0;
   for (let m = TOKEN.exec(html); m; m = TOKEN.exec(html)) {
-    const text = html.slice(last, m.index);
-    out += stack.length ? text : text.replace(WORD, LINK);
+    out += linkFirstMention(html.slice(last, m.index));
 
     const tag = m[0];
     out += tag;
@@ -69,6 +89,5 @@ export function linkBrand(html: string): string {
     }
   }
 
-  const rest = html.slice(last);
-  return out + (stack.length ? rest : rest.replace(WORD, LINK));
+  return out + linkFirstMention(html.slice(last));
 }

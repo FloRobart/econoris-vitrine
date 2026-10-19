@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import Icon from '../components/Icon.astro';
+import Screenshot from '../components/Screenshot.astro';
 import { SITE } from '../config/site';
 import { abs, breadcrumbs } from '../lib/schema';
 
@@ -66,6 +67,7 @@ const howTo = {
         <li>Un code vous est envoyé par email : recopiez-le dans l'application.</li>
         <li>Vous êtes connecté. Il n'y a <strong>aucun mot de passe</strong> à créer ou à retenir.</li>
       </ol>
+      <Screenshot name="login" class="block-screenshot" />
       <p class="tip">Astuce : commencez par ajouter votre salaire avec la catégorie « Salaire ». Econoris s'en sert pour caler votre mois financier sur votre jour de paie.</p>
     </section>
 
@@ -130,6 +132,7 @@ const howTo = {
         <li>Cliquez sur l'icône <strong>Installer</strong> à droite de la barre d'adresse (ou menu ⋮ → « Caster, enregistrer et partager » → « Installer la page en tant qu'application »).</li>
         <li>Econoris s'ouvre dans sa propre fenêtre et apparaît dans votre menu Démarrer ou votre Dock.</li>
       </ol>
+      <Screenshot name="desktop" class="block-screenshot" />
       <p>Sous Firefox et Safari, ajoutez simplement l'adresse à vos favoris.</p>
     </section>
 
@@ -174,6 +177,7 @@ const howTo = {
           </>
         )
       }
+      <Screenshot name="extension" class="block-screenshot" />
     </section>
 
     <section id="auto-hebergement" class="block">
@@ -266,5 +270,11 @@ const howTo = {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+  }
+  .block :global(.block-screenshot) {
+    margin: 1.5rem 0;
+  }
+  .block :global(.block-screenshot.screenshot-phone) {
+    width: min(100%, 280px);
   }
 </style>

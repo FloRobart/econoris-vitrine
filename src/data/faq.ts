@@ -24,7 +24,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Comment Econoris gagne de l’argent si c’est gratuit ?',
-    a: "Econoris ne gagne pas d'argent. C'est un projet open source sous licence GPL-3.0. Il a initialement été développé pour répondre à un besoin personnel du créateur, puis a été mis à disposition par le créateur. Il ne génère donc aucun revenu.",
+    a: "Econoris ne gagne pas d'argent. C'est un projet open source sous licence GPL-3.0. Son créateur, Floris Robart, l'a d'abord développé pour gérer son propre budget, puis l'a mis gratuitement à la disposition de tous. Il ne génère aucun revenu : pas de publicité, pas de revente de données, pas de version payante.",
     home: true,
   },
   {
@@ -61,7 +61,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Mes données sont-elles en sécurité ?',
-    a: "Econoris ne vous demande ni vos identifiants bancaires, ni votre RIB, ni votre carte. La connexion se fait sans mot de passe, par code envoyé par email, et le code source est public : chacun peut vérifier comment les données sont traitées. Econoris n'affiche aucune publicité.",
+    a: "Econoris ne vous demande ni vos identifiants bancaires, ni votre RIB, ni votre carte. Vos données sont hébergées en France, chez OVH, et ne sont ni vendues ni utilisées à des fins publicitaires. La connexion se fait sans mot de passe, par code envoyé par email, et le code source est public : chacun peut vérifier comment les données sont traitées. Vous pouvez supprimer votre compte et toutes vos données sur simple demande.",
   },
   {
     q: 'Econoris est-il open source ?',
