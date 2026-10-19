@@ -1,9 +1,9 @@
-name: Check package version on PR to master
+name: Check package version on PR to main
 
 on:
   pull_request:
     branches:
-      - master
+      - main
     types: [opened, synchronize, reopened]
 
 jobs:
