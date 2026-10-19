@@ -2,7 +2,7 @@
   "name": "econoris-vitrine",
   "description": "Site vitrine d'Econoris, l'application gratuite de gestion de budget.",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "license": "GPL-3.0-only",
   "scripts": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/manrope": "^5.3.0",
-    "astro": "^7.3.8",
+    "astro": "^7.4.1",
     "sharp": "^0.35.5"
   }
 }
