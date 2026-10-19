@@ -82,6 +82,7 @@ export function softwareApplication(site: URL | undefined, screenshots: Record<s
       "Indice de gestion d'argent",
       'Plus de 50 catégories de dépenses et revenus',
       'Connexion sans mot de passe par code email',
+      'Déconnexion à distance de tous les appareils',
       'Aucune connexion bancaire requise',
       'Thème clair et sombre',
       'Extension navigateur Chrome et Firefox',

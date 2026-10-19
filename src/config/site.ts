@@ -32,7 +32,7 @@ export const SITE = {
 
   /** Laisser à null tant que l'extension n'est pas publiée sur le store. */
   extension: {
-    chrome: 'https://chromewebstore.google.com/detail/gihpedfefdokbgjolodmcfpcjkeclhcc?utm_source=item-share-cb',
+    chrome: 'https://chromewebstore.google.com/detail/gihpedfefdokbgjolodmcfpcjkeclhcc',
     firefox: 'https://addons.mozilla.org/en-US/firefox/addon/econoris/',
     releases: 'https://github.com/FloRobart/econoris-extension/releases',
   },
@@ -47,11 +47,12 @@ export const SITE = {
   license: 'GPL-3.0',
   licenseUrl: 'https://www.gnu.org/licenses/gpl-3.0.html',
 
-  /** Obligatoire dans les mentions légales (LCEN, art. 6). À compléter. */
+  /** Mandatory in the legal notice (LCEN, art. 6): name, address and phone number of the host. */
   host: {
     name: 'OVH SAS',
     address: '140 Quai du Sartel, 59100 Roubaix, France',
-    contact: '+33 9 72 10 10 07',
+    phone: '+33 9 72 10 10 07',
+    website: 'https://www.ovhcloud.com/fr/',
   },
 } as const;
 

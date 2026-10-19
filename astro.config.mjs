@@ -5,7 +5,20 @@ import sitemap from '@astrojs/sitemap';
 
 // URL publique du site vitrine. Indispensable au SEO (canonical, sitemap,
 // Open Graph). À surcharger au build : SITE_URL=https://mon-domaine.fr npm run build
-const SITE_URL = process.env.SITE_URL
+const SITE_URL = process.env.SITE_URL ?? readSiteUrlFallback();
+
+/**
+ * Without SITE_URL, a production build would publish broken canonical URLs,
+ * sitemap and Open Graph tags: stop the build with a clear message instead.
+ * The dev server and preview fall back to the local address.
+ */
+function readSiteUrlFallback() {
+  const isBuild = process.argv.includes('build');
+  if (isBuild) {
+    throw new Error('SITE_URL is required to build the site, e.g. SITE_URL=https://www.econoris.fr npm run build');
+  }
+  return 'http://localhost:4321';
+}
 
 const GUIDES_DIRECTORY = new URL('./src/content/guides/', import.meta.url);
 

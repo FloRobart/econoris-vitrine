@@ -42,7 +42,7 @@ C'est l'étape la plus importante, et celle que la plupart des gens sautent.
 
 **Reste à dépenser = revenus du mois − dépenses fixes − abonnements − épargne prévue**
 
-Ce chiffre est l'argent réellement disponible pour la vie courante : courses, sorties, vêtements, cadeaux, imprévus. Si vous avez 2 100 € de revenus et 1 300 € de dépenses prévues, votre reste à dépenser est de 800 € pour le mois, soit environ 26 € par jour.
+Ce chiffre est l'argent réellement disponible pour la vie courante : courses, sorties, vêtements, cadeaux, imprévus. Si vous avez 2 100 € de revenus et 1 300 € de dépenses prévues, votre reste à dépenser est de 800 € pour le mois, soit environ 26.67 € par jour.
 
 Pour aller plus loin, lisez notre guide : [comment calculer son reste à vivre](/guides/calculer-reste-a-vivre/).
 

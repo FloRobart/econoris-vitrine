@@ -45,6 +45,11 @@ export const SCREENSHOTS = {
     kind: 'phone',
     alt: 'Connexion à Econoris sans mot de passe : saisie du code à usage unique reçu par email.',
   },
+  profile: {
+    file: 'profile',
+    kind: 'phone',
+    alt: "Profil Econoris : choix du thème clair ou sombre, statut du compte et déconnexion de cet appareil ou de tous les appareils.",
+  },
   desktop: {
     file: 'ordinateur',
     kind: 'desktop',
