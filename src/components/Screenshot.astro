@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import { SCREENSHOTS, findScreenshotImage, type ScreenshotName } from '../lib/screenshots';
+
+/*
+ * Real screenshot of the app (see src/lib/screenshots.ts).
+ * Renders nothing while the image file has not been added.
+ */
+interface Props {
+  name: ScreenshotName;
+  /** Loads the image right away: only for a screenshot visible without scrolling. */
+  eager?: boolean;
+  class?: string;
+}
+
+const { name, eager = false, class: className } = Astro.props;
+const screenshot = SCREENSHOTS[name];
+const image = findScreenshotImage(name);
+
+/** Candidate widths of the responsive image, per kind of screenshot. */
+const WIDTHS_BY_KIND = {
+  phone: [280, 420, 560, 840],
+  desktop: [480, 800, 1200, 1600],
+  popup: [300, 450, 600, 900],
+};
+
+/** Displayed width of the screenshot, so the browser picks the right file. */
+const SIZES_BY_KIND = {
+  phone: '(max-width: 600px) 75vw, 320px',
+  desktop: '(max-width: 900px) 100vw, 860px',
+  popup: '(max-width: 600px) 90vw, 380px',
+};
+
+// Never ask for a version wider than the original image.
+const widths = image ? WIDTHS_BY_KIND[screenshot.kind].filter((width) => width <= image.width) : [];
+const usableWidths = image && widths.length === 0 ? [image.width] : widths;
+---
+
+{
+  image && (
+    <figure class:list={['screenshot', `screenshot-${screenshot.kind}`, className]}>
+      <Image
+        src={image}
+        alt={screenshot.alt}
+        widths={usableWidths}
+        sizes={SIZES_BY_KIND[screenshot.kind]}
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : 'auto'}
+      />
+    </figure>
+  )
+}
+
+<style>
+  .screenshot {
+    margin: 0;
+  }
+  .screenshot :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Phone frame, same look as the HTML mockup of the home page. */
+  .screenshot-phone {
+    width: min(100%, 320px);
+    margin-inline: auto;
+    padding: 10px;
+    border-radius: 38px;
+    background: linear-gradient(160deg, #2b261c, #14110c);
+    box-shadow:
+      0 30px 60px -20px rgb(60 40 0 / 0.45),
+      0 0 0 1px rgb(255 255 255 / 0.06) inset;
+  }
+  .screenshot-phone :global(img) {
+    border-radius: 29px;
+  }
+
+  .screenshot-desktop,
+  .screenshot-popup {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .screenshot-desktop {
+    max-width: 860px;
+  }
+  .screenshot-popup {
+    max-width: 380px;
+  }
+</style>

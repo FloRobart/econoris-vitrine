@@ -29,6 +29,7 @@ export async function buildLlms(site: URL | undefined, full: boolean) {
     `- Langue : français ; devise : euro`,
     `- Connexion : sans mot de passe, par code à usage unique envoyé par email`,
     `- Banque : aucune connexion bancaire, aucun identifiant bancaire demandé ; saisie manuelle des opérations`,
+    `- Données : hébergées en France (${SITE.host.name}), ni vendues ni utilisées pour de la publicité, suppression du compte sur demande (${url('/confidentialite/')})`,
     `- Licence : open source, ${SITE.license} (code sur GitHub : ${SITE.github.app})`,
     `- Auteur : ${SITE.author.name} (${SITE.author.url})`,
     `- Contact : ${SITE.author.email}`,

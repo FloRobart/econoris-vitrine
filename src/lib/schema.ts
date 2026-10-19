@@ -41,7 +41,11 @@ export function website(site: URL | undefined) {
   };
 }
 
-export function softwareApplication(site: URL | undefined) {
+/**
+ * @param screenshots ImageObject of the real screenshots already added
+ *   (see getScreenshotImageObjects); the property is omitted when there is none.
+ */
+export function softwareApplication(site: URL | undefined, screenshots: Record<string, unknown>[] = []) {
   return {
     '@type': 'SoftwareApplication',
     '@id': abs('/#app', site),
@@ -61,7 +65,7 @@ export function softwareApplication(site: URL | undefined) {
       : {}),
     license: SITE.licenseUrl,
     image: abs('/og-image.png', site),
-    screenshot: abs('/og-image.png', site),
+    ...(screenshots.length > 0 ? { screenshot: screenshots } : {}),
     author: person(),
     publisher: { '@id': abs('/#organization', site) },
     offers: {

@@ -4,8 +4,6 @@ services:
     image: florobart/econoris-vitrine:latest
     working_dir: /app
     restart: always
-    env_file:
-      - .env
     networks:
       - flower-garden-net
     ports:

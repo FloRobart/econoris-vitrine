@@ -49,9 +49,9 @@ export const SITE = {
 
   /** Obligatoire dans les mentions légales (LCEN, art. 6). À compléter. */
   host: {
-    name: 'OVH NET',
+    name: 'OVH SAS',
     address: '140 Quai du Sartel, 59100 Roubaix, France',
-    contact: 'https://www.ovhcloud.com/fr/',
+    contact: '+33 9 72 10 10 07',
   },
 } as const;
 

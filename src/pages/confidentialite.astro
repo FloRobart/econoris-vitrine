@@ -4,19 +4,36 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { SITE } from '../config/site';
 
 const crumbs = [{ name: 'Confidentialité', path: '/confidentialite/' }];
+const appHost = new URL(SITE.appUrl).host;
+
+// Update this date whenever the content of the policy changes.
+const lastUpdated = new Date('2026-10-19');
+const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
 ---
 
 <BaseLayout
   title="Politique de confidentialité"
-  description="Comment Econoris traite vos données : aucun cookie publicitaire sur ce site, aucun accès bancaire, connexion par email. Vos droits RGPD."
+  description="Comment Econoris traite vos données : hébergement en France chez OVH, aucun accès bancaire, aucun cookie publicitaire, suppression du compte sur simple demande. Vos droits RGPD."
 >
   <section class="container page-hero">
     <Breadcrumbs items={crumbs} />
     <h1>Politique de confidentialité</h1>
-    <p class="lead">En bref : ce site ne vous suit pas, et l'application ne collecte que ce qui est nécessaire pour fonctionner.</p>
+    <p class="lead">
+      En bref : ce site ne vous suit pas, l'application ne collecte que ce qui est nécessaire pour fonctionner, vos
+      données sont hébergées en France et vous pouvez tout supprimer sur simple demande.
+    </p>
+    <p class="updated">
+      Dernière mise à jour : <time datetime={lastUpdated.toISOString().slice(0, 10)}>{dateFormat.format(lastUpdated)}</time>
+    </p>
   </section>
 
   <section class="container prose legal">
+    <h2>Responsable du traitement</h2>
+    <p>
+      Econoris est un projet personnel et non commercial. Le responsable du traitement des données est
+      {SITE.author.name}, joignable à <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a>.
+    </p>
+
     <h2>Ce site vitrine</h2>
     <p>
       Ce site n'utilise <strong>aucun cookie</strong>, aucun outil de mesure d'audience et aucun traceur publicitaire.
@@ -24,41 +41,105 @@ const crumbs = [{ name: 'Confidentialité', path: '/confidentialite/' }];
       tiers. C'est pourquoi aucun bandeau de consentement ne vous est demandé.
     </p>
     <p>
-      Comme tout serveur web, l'hébergeur peut conserver temporairement des journaux techniques (adresse IP, date,
-      page demandée) à des fins de sécurité.
+      Comme tout serveur web, le serveur conserve temporairement des journaux techniques (adresse IP, date, page
+      demandée) à des fins de sécurité.
     </p>
 
-    <h2>L'application Econoris</h2>
-    <p>Pour fonctionner, l'application ({new URL(SITE.appUrl).host}) traite :</p>
+    <h2>Les données traitées par l'application</h2>
+    <p>Pour fonctionner, l'application Econoris ({appHost}) et son extension navigateur traitent :</p>
     <ul>
       <li><strong>Votre adresse email</strong>, pour créer votre compte et vous envoyer le code de connexion.</li>
       <li>
-        <strong>Les opérations et abonnements que vous saisissez</strong> (montant, libellé, catégorie, date), pour
-        calculer votre budget.
+        <strong>Les opérations et abonnements que vous saisissez</strong> (montant, libellé, catégorie, date,
+        récurrence), pour calculer votre budget.
+      </li>
+      <li>
+        <strong>Des données techniques</strong> (adresse IP, date et nature des requêtes), conservées temporairement
+        dans les journaux du serveur pour la sécurité et la protection contre les abus.
       </li>
     </ul>
     <p>
-      Econoris ne demande jamais vos identifiants bancaires, votre RIB ou votre carte bancaire, et n'affiche aucune
-      publicité. Vos données ne sont ni vendues ni cédées à des tiers. Elles servent uniquement à vous fournir le
-      service.
+      Econoris ne demande jamais vos identifiants bancaires, votre RIB ou votre carte bancaire, n'affiche aucune
+      publicité et ne contient aucun outil de mesure d'audience ni traceur.
+    </p>
+
+    <h3>Stockage sur votre appareil</h3>
+    <p>
+      L'application n'utilise pas de cookie. Elle enregistre dans le stockage local de votre navigateur ou de votre
+      téléphone uniquement ce qui lui est nécessaire : votre jeton de connexion (pour rester connecté), votre adresse
+      email, votre choix de thème clair ou sombre, et une copie de vos opérations et abonnements pour un affichage
+      rapide. Le jeton de connexion est effacé à la déconnexion ; le reste peut être effacé en vidant les données du
+      site dans votre navigateur, ou les données de l'application sur votre téléphone.
+    </p>
+
+    <h2>Pourquoi ces données sont traitées</h2>
+    <ul>
+      <li>
+        <strong>Fournir le service que vous demandez</strong> (compte, connexion, calcul de votre budget) : c'est la
+        base légale de l'exécution du service (article 6.1.b du RGPD).
+      </li>
+      <li>
+        <strong>Assurer la sécurité</strong> du site et de l'application (journaux techniques, limitation des abus) :
+        c'est l'intérêt légitime de garder le service fiable et sûr (article 6.1.f du RGPD).
+      </li>
+    </ul>
+    <p>Vos données ne sont jamais utilisées à des fins publicitaires, ni vendues, ni cédées à des tiers.</p>
+
+    <h2>Où sont hébergées vos données</h2>
+    <p>
+      Le site, l'application, son serveur et sa base de données sont hébergés <strong>en France</strong>, chez
+      {SITE.host.name} ({SITE.host.address}).
+    </p>
+
+    <h2>Qui peut accéder à vos données</h2>
+    <p>Seul {SITE.author.name} administre le service. Deux prestataires interviennent techniquement :</p>
+    <ul>
+      <li><strong>{SITE.host.name}</strong>, l'hébergeur des serveurs, en France.</li>
+      <li>
+        <strong>Google</strong>, pour l'envoi des emails contenant votre code de connexion, depuis une adresse Gmail.
+        Votre adresse email et le contenu de ces messages transitent donc par Google LLC, société établie aux
+        États-Unis. Ce transfert est encadré par le cadre de protection des données UE–États-Unis (Data Privacy
+        Framework), reconnu par la Commission européenne comme offrant un niveau de protection adéquat.
+      </li>
+    </ul>
+
+    <h2>Durée de conservation</h2>
+    <p>
+      Vos données de compte (adresse email, opérations, abonnements) sont conservées <strong>tant que votre compte
+      existe</strong>. Elles sont définitivement effacées lorsque vous demandez la suppression de votre compte.
+    </p>
+
+    <h2 id="suppression-compte">Supprimer votre compte et vos données</h2>
+    <p>
+      Pour supprimer votre compte, écrivez à <a href={`mailto:${SITE.author.email}?subject=Suppression%20de%20mon%20compte%20Econoris`}>{SITE.author.email}</a>
+      depuis l'adresse email de votre compte Econoris. Votre compte et toutes les données associées (opérations et
+      abonnements) sont alors définitivement supprimés, dans un délai d'un mois au maximum, et vous recevez une
+      confirmation par email.
     </p>
 
     <h2>Vos droits</h2>
     <p>
-      Conformément au RGPD, vous pouvez accéder à vos données, les rectifier, les supprimer ou en demander la
-      portabilité. Écrivez à <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a>. Vous pouvez également
-      adresser une réclamation à la <a href="https://www.cnil.fr/" rel="noopener">CNIL</a>.
+      Conformément au RGPD, vous pouvez à tout moment accéder à vos données, les rectifier, les supprimer, en demander
+      la portabilité, vous opposer à leur traitement ou en demander la limitation. Écrivez à
+      <a href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a> : une réponse vous est apportée dans un délai
+      d'un mois au maximum. Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une
+      réclamation à la <a href="https://www.cnil.fr/" rel="noopener">CNIL</a>.
     </p>
 
     <h2>Transparence</h2>
     <p>
-      Le code source de l'application est public : vous pouvez vérifier vous-même comment vos données sont traitées
-      sur <a href={SITE.github.app} rel="noopener">GitHub</a>.
+      Le code source de l'application, du serveur et de l'extension est public : vous pouvez vérifier vous-même
+      comment vos données sont traitées sur <a href={SITE.github.app} rel="noopener">GitHub</a>.
     </p>
   </section>
 </BaseLayout>
 
 <style>
+  .updated {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
   .legal {
     padding-bottom: 80px;
   }

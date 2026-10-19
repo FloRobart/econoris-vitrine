@@ -61,7 +61,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Mes données sont-elles en sécurité ?',
-    a: "Econoris ne vous demande ni vos identifiants bancaires, ni votre RIB, ni votre carte. La connexion se fait sans mot de passe, par code envoyé par email, et le code source est public : chacun peut vérifier comment les données sont traitées. Econoris n'affiche aucune publicité.",
+    a: "Econoris ne vous demande ni vos identifiants bancaires, ni votre RIB, ni votre carte. Vos données sont hébergées en France, chez OVH, et ne sont ni vendues ni utilisées à des fins publicitaires. La connexion se fait sans mot de passe, par code envoyé par email, et le code source est public : chacun peut vérifier comment les données sont traitées. Vous pouvez supprimer votre compte et toutes vos données sur simple demande.",
   },
   {
     q: 'Econoris est-il open source ?',

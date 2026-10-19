@@ -5,10 +5,16 @@ import BudgetCalculator from '../components/BudgetCalculator.astro';
 import FaqList from '../components/FaqList.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import Icon from '../components/Icon.astro';
+import Screenshot from '../components/Screenshot.astro';
 import { SITE } from '../config/site';
 import { FAQS } from '../data/faq';
-import { faqPage, softwareApplication } from '../lib/schema';
+import { softwareApplication } from '../lib/schema';
+import { getScreenshotImageObjects, hasScreenshot } from '../lib/screenshots';
 
+const screenshots = await getScreenshotImageObjects(Astro.site);
+
+// Displayed only: no FAQPage markup here, these questions are already marked up
+// on /faq/ and Google asks to mark up a repeated FAQ only once.
 const homeFaqs = FAQS.filter((f) => f.home);
 
 const features = [
@@ -45,7 +51,7 @@ const features = [
 ] as const;
 ---
 
-<BaseLayout schema={[softwareApplication(Astro.site), faqPage(homeFaqs)]}>
+<BaseLayout schema={[softwareApplication(Astro.site, screenshots)]}>
   <!-- HERO -->
   <section class="hero">
     <div class="container hero-grid">
@@ -69,7 +75,8 @@ const features = [
         </ul>
       </div>
       <div class="hero-visual">
-        <AppMockup />
+        {/* The real screenshot replaces the HTML mockup as soon as it is added. */}
+        {hasScreenshot('home') ? <Screenshot name="home" eager /> : <AppMockup />}
       </div>
     </div>
   </section>
