@@ -21,7 +21,7 @@ export const SITE = {
   author: {
     name: 'Floris Robart',
     url: 'https://florobart.fr',
-    email: 'florobart.github@gmail.com',
+    email: 'contact@econoris.fr',
   },
 
   github: {
