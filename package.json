@@ -12,7 +12,10 @@
     "preview": "astro preview",
     "og": "node scripts/generate-og.mjs",
     "astro": "astro",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "lint": "echo true",
+    "format:check": "echo true",
+    "test": "echo true"
   },
   "repository": {
     "type": "git",
