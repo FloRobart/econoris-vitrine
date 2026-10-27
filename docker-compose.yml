@@ -41,6 +41,12 @@ services:
       - "traefik.http.routers.econoris-vitrine.entrypoints=websecure"
       - "traefik.http.routers.econoris-vitrine.tls.certresolver=le"
       - "traefik.http.services.econoris-vitrine.loadbalancer.server.port=80"
+      # www.econoris.fr -> econoris.fr (301) : une seule URL canonique pour le SEO.
+      # "$$" échappe le "$" pour docker compose (Traefik reçoit "${1}").
+      - "traefik.http.routers.econoris-vitrine.middlewares=econoris-vitrine-redirect-www"
+      - 'traefik.http.middlewares.econoris-vitrine-redirect-www.redirectregex.regex=^https?://www\.econoris\.fr/(.*)'
+      - "traefik.http.middlewares.econoris-vitrine-redirect-www.redirectregex.replacement=https://econoris.fr/$${1}"
+      - "traefik.http.middlewares.econoris-vitrine-redirect-www.redirectregex.permanent=true"
 
 networks:
   flower-garden-net:

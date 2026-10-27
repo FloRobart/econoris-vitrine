@@ -1,11 +1,31 @@
 // @ts-check
 import { readdirSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+
+loadLocalEnvFile();
 
 // URL publique du site vitrine. Indispensable au SEO (canonical, sitemap,
 // Open Graph). À surcharger au build : SITE_URL=https://mon-domaine.fr npm run build
 const SITE_URL = process.env.SITE_URL ?? readSiteUrlFallback();
+
+/**
+ * Astro does not expose the .env file to its own config file: load it into
+ * process.env so a local `npm run build` gets SITE_URL. Variables already set
+ * in the environment (Docker ARG/ENV, CI) keep priority over the file.
+ * The file is optional: it is not copied into the Docker build context.
+ */
+function loadLocalEnvFile() {
+  const envFilePath = fileURLToPath(new URL('./.env', import.meta.url));
+
+  try {
+    process.loadEnvFile(envFilePath);
+  } catch (error) {
+    const isMissingFile = /** @type {NodeJS.ErrnoException} */ (error).code === 'ENOENT';
+    if (!isMissingFile) throw error;
+  }
+}
 
 /**
  * Without SITE_URL, a production build would publish broken canonical URLs,
@@ -15,7 +35,7 @@ const SITE_URL = process.env.SITE_URL ?? readSiteUrlFallback();
 function readSiteUrlFallback() {
   const isBuild = process.argv.includes('build');
   if (isBuild) {
-    throw new Error('SITE_URL is required to build the site, e.g. SITE_URL=https://www.econoris.fr npm run build');
+    throw new Error('SITE_URL is required to build the site, e.g. SITE_URL=https://econoris.fr npm run build');
   }
   return 'http://localhost:4321';
 }

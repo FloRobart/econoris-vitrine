@@ -3,7 +3,9 @@ FROM node:24-alpine AS builder
 WORKDIR /app
 
 # URL publique du site : indispensable au SEO (canonical, sitemap, Open Graph).
-ARG SITE_URL=https://www.econoris.fr
+# Le .env n'est pas copié dans l'image (.dockerignore) : cette valeur par défaut
+# est celle utilisée par la CI. Surcharge : docker build --build-arg SITE_URL=...
+ARG SITE_URL=https://econoris.fr
 ENV SITE_URL=${SITE_URL} \
     ASTRO_TELEMETRY_DISABLED=1
 
