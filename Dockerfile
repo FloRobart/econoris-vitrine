@@ -17,21 +17,16 @@ COPY . .
 RUN npm run build
 
 # Étape 2 : image finale avec NGINX
-FROM nginx:alpine
+# Docker Hardened Image: runs as non-root and has no shell or package manager,
+# so this stage cannot contain any RUN instruction.
+# Pulling it requires an authenticated session: docker login dhi.io
+FROM dhi.io/nginx:1-debian13
 
-# Supprimer le site par défaut de nginx
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copier le site généré et la configuration nginx
+# Copy the generated site and the nginx configuration
 COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx/main.conf /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx/security-headers.conf /etc/nginx/snippets/security-headers.conf
 
-# Ajout d'un utilisateur non-root avec UID/GID fixes
-RUN addgroup -g 1800 -S econorisgroup && adduser -u 1800 -S econorisuser -G econorisgroup \
-    && mkdir -p /run/nginx /var/cache/nginx /var/run /var/log/nginx \
-    && chown -R econorisuser:econorisgroup /var/cache/nginx /var/run /var/log/nginx /run/nginx \
-    && chmod 0755 /run/nginx
-USER econorisuser
-
-EXPOSE 80
+# Non-root users cannot rely on privileged ports: the hardened image uses 8080
+EXPOSE 8080

@@ -15,10 +15,11 @@ npm run og        # régénère public/og-image.png et l'icône Apple (si le log
 
 ## Docker
 
-Copier `.env.example` vers `.env` (`SITE_URL`, `APP_PORT`, 26004 par défaut). Le réseau externe `flower-garden-net` doit exister.
+Copier `.env.example` vers `.env` (`SITE_URL`, et `APP_PORT` pour le développement, 26004 par défaut). Le réseau externe `flower-garden-net` doit exister. En production, aucun port n'est publié : le site passe uniquement par Traefik.
 
 ```bash
-# Production : build Astro puis nginx non-root, conteneur en lecture seule
+# Production : build Astro puis nginx hardened non-root, conteneur en lecture seule
+docker login dhi.io # une fois, avec un compte Docker Hub : l'image dhi.io/nginx exige une authentification
 docker compose up -d --build
 
 # Développement : serveur Astro avec rechargement à chaud, sources montées en volume
@@ -29,7 +30,7 @@ npm run dev-docker # http://localhost:26004
 Le conteneur de dev tourne avec l'UID/GID 1000 (propriétaire des sources). Si le vôtre est différent, définissez `HOST_UID` et `HOST_GID` dans `.env`.
 
 `SITE_URL` est utilisée **au build** de l'image : changer de domaine impose de reconstruire (`--build`).
-La configuration nginx est dans `nginx.conf` (cache, compression, 404) et `nginx/security-headers.conf` (CSP et en-têtes de sécurité).
+La configuration nginx est dans `nginx/main.conf` (chemins inscriptibles, logs), `nginx.conf` (cache, compression, 404) et `nginx/security-headers.conf` (CSP et en-têtes de sécurité).
 
 ## Structure
 
