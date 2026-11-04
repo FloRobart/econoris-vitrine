@@ -2,45 +2,33 @@ services:
   # Econoris Vitrine #
   econoris-vitrine:
     image: florobart/econoris-vitrine:latest
-    working_dir: /app
     restart: always
+    # No published port: the site is only reachable through Traefik, on this network
     networks:
       - flower-garden-net
-    ports:
-      - ${APP_PORT:-}:80
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - ALL
-    cap_add:
-      - NET_BIND_SERVICE
-      - CHOWN
-      - SETGID
-      - SETUID
     read_only: true
     user: "1800:1800"
+    # The only writable paths: nginx creates its temporary folders in /var/cache/nginx.
+    # The sizes prevent these in-memory mounts from filling up the host memory.
     tmpfs:
-      - /tmp:exec,nosuid,nodev,uid=1800,gid=1800
-      - /run:rw,mode=0755,uid=1800,gid=1800
-      - /run/nginx:rw,mode=0755,uid=1800,gid=1800
-      - /var/cache/nginx:rw,uid=1800,gid=1800
-      - /var/cache/nginx/client_temp:rw,uid=1800,gid=1800
-      - /var/cache/nginx/proxy_temp:rw,uid=1800,gid=1800
-      - /var/cache/nginx/fastcgi_temp:rw,uid=1800,gid=1800
-      - /var/cache/nginx/uwsgi_temp:rw,uid=1800,gid=1800
-      - /var/cache/nginx/scgi_temp:rw,uid=1800,gid=1800
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:80/ || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - /var/run:rw,noexec,nosuid,nodev,size=1m,mode=0755,uid=1800,gid=1800
+      - /var/cache/nginx:rw,noexec,nosuid,nodev,size=16m,mode=0755,uid=1800,gid=1800
+    # No Docker healthcheck: the hardened image has neither a shell nor wget.
+    # Traefik checks the site over HTTP instead (see the healthcheck labels below).
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=flower_garden_flower-garden-net"
       - "traefik.http.routers.econoris-vitrine.rule=Host(`econoris.fr`) || Host(`www.econoris.fr`)"
       - "traefik.http.routers.econoris-vitrine.entrypoints=websecure"
       - "traefik.http.routers.econoris-vitrine.tls.certresolver=le"
-      - "traefik.http.services.econoris-vitrine.loadbalancer.server.port=80"
+      - "traefik.http.services.econoris-vitrine.loadbalancer.server.port=8080"
+      - "traefik.http.services.econoris-vitrine.loadbalancer.healthcheck.path=/"
+      - "traefik.http.services.econoris-vitrine.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.econoris-vitrine.loadbalancer.healthcheck.timeout=5s"
       # www.econoris.fr -> econoris.fr (301) : une seule URL canonique pour le SEO.
       # "$$" échappe le "$" pour docker compose (Traefik reçoit "${1}").
       - "traefik.http.routers.econoris-vitrine.middlewares=econoris-vitrine-redirect-www"
