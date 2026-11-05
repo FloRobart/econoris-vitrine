@@ -43,7 +43,7 @@ export const SITE = {
     appStore: null as string | null,
   },
 
-  dockerImage: 'florobart/econoris-app-web',
+  dockerImage: 'florobart/econoris-app',
   license: 'GPL-3.0',
   licenseUrl: 'https://www.gnu.org/licenses/gpl-3.0.html',
 

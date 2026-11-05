@@ -1,32 +1,43 @@
-# Étape 1 : build du site statique Astro
-FROM node:24-alpine AS builder
+# Pulling Docker Hardened Images requires an authenticated session: docker login dhi.io
+
+# ---- Stage 1: build the static Astro site ----
+# The "-dev" variant is the hardened image that includes a shell and npm.
+# It never reaches production: only the generated files leave this stage.
+FROM dhi.io/node:24-alpine3.23-dev AS builder
 WORKDIR /app
 
-# URL publique du site : indispensable au SEO (canonical, sitemap, Open Graph).
-# Le .env n'est pas copié dans l'image (.dockerignore) : cette valeur par défaut
-# est celle utilisée par la CI. Surcharge : docker build --build-arg SITE_URL=...
+# The public URL is required for SEO (canonical, sitemap, Open Graph).
+# The .env file is not copied into the image, so this default is the production value.
 ARG SITE_URL=https://econoris.fr
 ENV SITE_URL=${SITE_URL} \
     ASTRO_TELEMETRY_DISABLED=1
 
-# Dépendances d'abord, pour profiter du cache Docker
-COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+# The build runs as a non-root user: a compromised dependency cannot alter the stage
+RUN chown node:node /app
+USER node
 
-COPY . .
+# Dependencies come first to benefit from the Docker cache.
+# --ignore-scripts blocks the install scripts, the usual vector of npm supply chain attacks.
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts --no-audit --no-fund
+
+# Only the build inputs are copied, so that no other file of the project can end up in the site
+COPY astro.config.mjs tsconfig.json ./
+COPY src ./src
+COPY public ./public
 RUN npm run build
 
-# Étape 2 : image finale avec NGINX
-# Docker Hardened Image: runs as non-root and has no shell or package manager,
+
+# ---- Stage 2: serve the site with nginx ----
+# This hardened image runs as non-root and has no shell or package manager,
 # so this stage cannot contain any RUN instruction.
-# Pulling it requires an authenticated session: docker login dhi.io
-FROM dhi.io/nginx:1-debian13
+# Pinned by digest so that a compromised tag cannot silently change the build.
+FROM dhi.io/nginx:1.30-debian13@sha256:30510655d924e2e36dd69815d852f2df43868c83007be3353ec0bb8f5e7b3ab0
 
-# Copy the generated site and the nginx configuration
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx/main.conf /etc/nginx/nginx.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY nginx/security-headers.conf /etc/nginx/snippets/security-headers.conf
+# Owned by root: the user running nginx can read these files but never modify them
+COPY --from=builder --chown=0:0 /app/dist /usr/share/nginx/html
+COPY --chown=0:0 nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chown=0:0 nginx/http-overrides.conf /etc/nginx/conf.d/http-overrides.conf
+COPY --chown=0:0 nginx/security-headers.conf /etc/nginx/snippets/security-headers.conf
 
-# Non-root users cannot rely on privileged ports: the hardened image uses 8080
-EXPOSE 8080
+USER 65532:65532

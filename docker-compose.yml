@@ -1,41 +1,47 @@
+# Production only. Development uses docker-compose.dev.yml.
+# No "build" section: a missing image must fail, not trigger a compilation on the server.
 services:
-  # Econoris Vitrine #
   econoris-vitrine:
-    image: florobart/econoris-vitrine:latest
+    image: florobart/econoris-vitrine:${VITRINE_VERSION:-latest}
     restart: always
-    # No published port: the site is only reachable through Traefik, on this network
+
+    # No Docker healthcheck: the hardened image has neither a shell nor wget.
+    # Traefik checks the site over HTTP instead (dynamic/routes.yml of econoris-proxy).
+
+    # No published port: the site is only reachable through Traefik
     networks:
-      - flower-garden-net
-    security_opt:
-      - no-new-privileges:true
+      - econoris-vitrine-net
+
+    # ---- Privileges ----
+    user: "65532:65532"
+    read_only: true
     cap_drop:
       - ALL
-    read_only: true
-    user: "1800:1800"
-    # The only writable paths: nginx creates its temporary folders in /var/cache/nginx.
-    # The sizes prevent these in-memory mounts from filling up the host memory.
+    security_opt:
+      - no-new-privileges:true
+    ipc: none
+
+    # ---- Resource limits: a flood of requests must not affect the other containers ----
+    mem_limit: 128m
+    memswap_limit: 128m
+    cpus: 1
+    pids_limit: 64
+
+    # Access logs are driven by external requests: without rotation they could fill the disk
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+    # The only writable paths: nginx writes its PID file and its temporary folders here.
+    # The sizes prevent these in-memory mounts from filling up the memory.
     tmpfs:
-      - /var/run:rw,noexec,nosuid,nodev,size=1m,mode=0755,uid=1800,gid=1800
-      - /var/cache/nginx:rw,noexec,nosuid,nodev,size=16m,mode=0755,uid=1800,gid=1800
-    # No Docker healthcheck: the hardened image has neither a shell nor wget.
-    # Traefik checks the site over HTTP instead (see the healthcheck labels below).
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=flower_garden_flower-garden-net"
-      - "traefik.http.routers.econoris-vitrine.rule=Host(`econoris.fr`) || Host(`www.econoris.fr`)"
-      - "traefik.http.routers.econoris-vitrine.entrypoints=websecure"
-      - "traefik.http.routers.econoris-vitrine.tls.certresolver=le"
-      - "traefik.http.services.econoris-vitrine.loadbalancer.server.port=8080"
-      - "traefik.http.services.econoris-vitrine.loadbalancer.healthcheck.path=/"
-      - "traefik.http.services.econoris-vitrine.loadbalancer.healthcheck.interval=10s"
-      - "traefik.http.services.econoris-vitrine.loadbalancer.healthcheck.timeout=5s"
-      # www.econoris.fr -> econoris.fr (301) : une seule URL canonique pour le SEO.
-      # "$$" échappe le "$" pour docker compose (Traefik reçoit "${1}").
-      - "traefik.http.routers.econoris-vitrine.middlewares=econoris-vitrine-redirect-www"
-      - 'traefik.http.middlewares.econoris-vitrine-redirect-www.redirectregex.regex=^https?://www\.econoris\.fr/(.*)'
-      - "traefik.http.middlewares.econoris-vitrine-redirect-www.redirectregex.replacement=https://econoris.fr/$${1}"
-      - "traefik.http.middlewares.econoris-vitrine-redirect-www.redirectregex.permanent=true"
+      - /run/nginx:size=64k,mode=0700,uid=65532,gid=65532,noexec,nosuid,nodev
+      - /var/cache/nginx:size=1m,mode=0700,uid=65532,gid=65532,noexec,nosuid,nodev
 
 networks:
-  flower-garden-net:
-    external: true
+  # No access to the outside: this container only serves static files to Traefik
+  econoris-vitrine-net:
+    name: econoris-vitrine-net
+    internal: true

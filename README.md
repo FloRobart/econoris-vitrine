@@ -15,22 +15,22 @@ npm run og        # régénère public/og-image.png et l'icône Apple (si le log
 
 ## Docker
 
-Copier `.env.example` vers `.env` (`SITE_URL`, et `APP_PORT` pour le développement, 26004 par défaut). Le réseau externe `flower-garden-net` doit exister. En production, aucun port n'est publié : le site passe uniquement par Traefik.
+Copier `.env.example` vers `.env` (`SITE_URL`, et `APP_PORT` pour le développement, 26004 par défaut). En production, `econoris-wrapper` déploie l'image publiée (nginx hardened non-root, conteneur en lecture seule) : rien n'est compilé sur le serveur, aucun port n'est publié, et le site passe uniquement par Traefik, sur le réseau interne `econoris-vitrine-net`.
 
 ```bash
-# Production : build Astro puis nginx hardened non-root, conteneur en lecture seule
-docker login dhi.io # une fois, avec un compte Docker Hub : l'image dhi.io/nginx exige une authentification
-docker compose up -d --build
-
 # Développement : serveur Astro avec rechargement à chaud, sources montées en volume
 npm install        # une fois, sur la machine hôte : le conteneur réutilise ces node_modules
 npm run dev-docker # http://localhost:26004
+
+# Construire l'image de production en local : build Astro puis nginx hardened
+docker login dhi.io # une fois, avec un compte Docker Hub : l'image dhi.io/nginx exige une authentification
+docker compose -f docker-compose.dev.yml --profile image build
 ```
 
 Le conteneur de dev tourne avec l'UID/GID 1000 (propriétaire des sources). Si le vôtre est différent, définissez `HOST_UID` et `HOST_GID` dans `.env`.
 
-`SITE_URL` est utilisée **au build** de l'image : changer de domaine impose de reconstruire (`--build`).
-La configuration nginx est dans `nginx/main.conf` (chemins inscriptibles, logs), `nginx.conf` (cache, compression, 404) et `nginx/security-headers.conf` (CSP et en-têtes de sécurité).
+`SITE_URL` est utilisée **au build** de l'image : changer de domaine impose de reconstruire et republier l'image.
+La configuration nginx est dans `nginx/http-overrides.conf` (ajouts à la configuration de base de l'image), `nginx.conf` (cache, compression, 404) et `nginx/security-headers.conf` (CSP et en-têtes de sécurité).
 
 ## Structure
 
