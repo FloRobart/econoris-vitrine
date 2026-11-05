@@ -16,7 +16,7 @@ export const SITE = {
   themeColor: '#FCB82A',
 
   /** Application web (là où les utilisateurs se connectent). */
-  appUrl: 'https://econoris.florobart.fr',
+  appUrl: 'https://app.econoris.fr',
 
   author: {
     name: 'Floris Robart',
@@ -25,8 +25,8 @@ export const SITE = {
   },
 
   github: {
-    app: 'https://github.com/FloRobart/econoris_app',
-    server: 'https://github.com/FloRobart/Econoris_server',
+    app: 'https://github.com/FloRobart/econoris-app',
+    server: 'https://github.com/FloRobart/econoris-api',
     extension: 'https://github.com/FloRobart/econoris-extension',
   },
 

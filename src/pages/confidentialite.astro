@@ -7,7 +7,7 @@ const crumbs = [{ name: 'Confidentialité', path: '/confidentialite/' }];
 const appHost = new URL(SITE.appUrl).host;
 
 // Update this date whenever the content of the policy changes.
-const lastUpdated = new Date('2026-10-19');
+const lastUpdated = new Date('2026-11-05');
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
 ---
 
@@ -67,9 +67,11 @@ const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
     <p>
       L'application n'utilise pas de cookie. Elle enregistre dans le stockage local de votre navigateur ou de votre
       téléphone uniquement ce qui lui est nécessaire : votre jeton de connexion (pour rester connecté), votre adresse
-      email, votre choix de thème clair ou sombre, et une copie de vos opérations et abonnements pour un affichage
-      rapide. Le jeton de connexion est effacé à la déconnexion ; le reste peut être effacé en vidant les données du
-      site dans votre navigateur, ou les données de l'application sur votre téléphone.
+      email et le jeton temporaire reçu pendant la connexion, votre choix de thème clair ou sombre, et le brouillon
+      de l'opération ou de l'abonnement que vous êtes en train de saisir. Vos opérations et abonnements restent sur
+      le serveur : aucune copie n'en est gardée sur votre appareil. Le jeton de connexion est effacé à la
+      déconnexion ; le reste peut être effacé en vidant les données du site dans votre navigateur, ou les données de
+      l'application sur votre téléphone.
     </p>
 
     <h2>Pourquoi ces données sont traitées</h2>

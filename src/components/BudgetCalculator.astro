@@ -18,7 +18,7 @@ const { id = 'calc' } = Astro.props;
     </div>
   </div>
 
-  <form class="fields" onsubmit="return false">
+  <form class="fields">
     <label>
       <span>Revenus du mois <small>salaire, aides, primes…</small></span>
       <span class="input"><input type="number" inputmode="decimal" min="0" step="any" name="income" value="2150" /><em>€</em></span>
@@ -106,6 +106,8 @@ const { id = 'calc' } = Astro.props;
           : `soit environ ${euroRound.format(remaining / daysLeft)} par jour pendant les ${daysLeft} jours restants avant votre prochaine paie`;
     };
 
+    /* Enter in a field must not reload the page: the result already follows each keystroke */
+    form.addEventListener('submit', (event) => event.preventDefault());
     form.addEventListener('input', update);
     update();
   }

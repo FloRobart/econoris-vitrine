@@ -1,6 +1,6 @@
 # Econoris – site vitrine
 
-Site vitrine d'[Econoris](https://econoris.florobart.fr), l'application gratuite de gestion de budget.
+Site vitrine d'[Econoris](https://econoris.fr), l'application gratuite de gestion de budget.
 Construit avec [Astro](https://astro.build) : 100 % statique, quasiment sans JavaScript (seul le calculateur en utilise), sans cookie ni traceur.
 
 ## Développement
@@ -69,7 +69,7 @@ Le code ne suffit pas à apparaître dans les premiers résultats : la réputati
 
 1. **Google Search Console** : ajouter le domaine, soumettre `sitemap-index.xml`.
 2. **Bing Webmaster Tools** : idem. Bing alimente ChatGPT Search et Copilot, c'est prioritaire pour les IA.
-3. **Liens entrants** : ajouter le lien du site dans les README GitHub, sur econoris.florobart.fr (page de connexion, `index.html`), sur florobart.github.io.
+3. **Liens entrants** : ajouter le lien du site dans les README GitHub, sur app.econoris.fr (page de connexion, `index.html`), sur florobart.github.io.
 4. **Annuaires et communautés** : AlternativeTo, Framalibre, Product Hunt, Reddit (r/vosfinances), forums budget. Les IA citent surtout ce qui est mentionné ailleurs.
 5. **Stores de l'extension** : une fois publiée, renseigner `SITE.extension.chrome` / `firefox` dans `src/config/site.ts`.
 6. **Publier régulièrement** un nouveau guide dans `src/content/guides/` (un fichier Markdown suffit).

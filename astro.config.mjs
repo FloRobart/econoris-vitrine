@@ -79,6 +79,13 @@ export default defineConfig({
   trailingSlash: 'always',
   build: { format: 'directory' },
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  vite: {
+    build: {
+      /* Scripts are never inlined in the pages, so the Content-Security-Policy of nginx needs no
+         'unsafe-inline' in script-src. Other assets keep the default limit of Vite. */
+      assetsInlineLimit: (filePath) => (filePath.endsWith('.js') ? false : undefined),
+    },
+  },
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/404'),
