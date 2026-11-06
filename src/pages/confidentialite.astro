@@ -7,7 +7,7 @@ const crumbs = [{ name: 'Confidentialité', path: '/confidentialite/' }];
 const appHost = new URL(SITE.appUrl).host;
 
 // Update this date whenever the content of the policy changes.
-const lastUpdated = new Date('2026-11-05');
+const lastUpdated = new Date('2026-11-06');
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
 ---
 
@@ -54,8 +54,9 @@ const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
         récurrence), pour calculer votre budget.
       </li>
       <li>
-        <strong>Des données techniques</strong> (adresse IP, date et nature des requêtes), conservées temporairement
-        dans les journaux du serveur pour la sécurité et la protection contre les abus.
+        <strong>Des données techniques</strong> (adresse IP, date et nature des requêtes, ainsi que l'adresse email
+        du compte qui les envoie), conservées temporairement dans les journaux du serveur pour la sécurité et la
+        protection contre les abus.
       </li>
     </ul>
     <p>
@@ -69,9 +70,9 @@ const dateFormat = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
       téléphone uniquement ce qui lui est nécessaire : votre jeton de connexion (pour rester connecté), votre adresse
       email et le jeton temporaire reçu pendant la connexion, votre choix de thème clair ou sombre, et le brouillon
       de l'opération ou de l'abonnement que vous êtes en train de saisir. Vos opérations et abonnements restent sur
-      le serveur : aucune copie n'en est gardée sur votre appareil. Le jeton de connexion est effacé à la
-      déconnexion ; le reste peut être effacé en vidant les données du site dans votre navigateur, ou les données de
-      l'application sur votre téléphone.
+      le serveur : aucune copie n'en est gardée sur votre appareil. Le jeton temporaire est effacé dès que la
+      connexion aboutit, et le jeton de connexion à la déconnexion ; le reste peut être effacé en vidant les données
+      du site dans votre navigateur, ou les données de l'application sur votre téléphone.
     </p>
 
     <h2>Pourquoi ces données sont traitées</h2>
