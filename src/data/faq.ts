@@ -44,7 +44,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Comment créer un compte Econoris ?',
-    a: "Ouvrez econoris.florobart.fr, saisissez votre adresse email et validez le code reçu par email. Il n'y a pas de mot de passe à créer ni à retenir : la connexion se fait par code à usage unique.",
+    a: "Ouvrez app.econoris.fr, saisissez votre adresse email et validez le code reçu par email. Il n'y a pas de mot de passe à créer ni à retenir : la connexion se fait par code à usage unique.",
     home: true,
   },
   {
